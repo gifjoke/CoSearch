@@ -31,7 +31,7 @@ static AppDelegate *lofterApp = nil;
     [appDelegate.searchTypeArray addObject:@"Google"];
     
     appDelegate.searchTypeAndSearchStringDic = [NSMutableDictionary dictionary];
-    [appDelegate.searchTypeAndSearchStringDic setObject:@"http://carbyne.net.cn/#q=%@" forKey:@"Google"];
+    [appDelegate.searchTypeAndSearchStringDic setObject:@"http://google.sidney-aldebaran.me/search?q=%@" forKey:@"Google"];
     [appDelegate.searchTypeAndSearchStringDic setObject:@"https://www.baidu.com/s?wd=%@" forKey:@"Baidu"];
     
     return YES;

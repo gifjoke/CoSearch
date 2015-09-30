@@ -11,7 +11,7 @@
 
 #define SearchButtonHeight 45.0f
 
-@interface SearchViewController () <UITextFieldDelegate, UIWebViewDelegate>
+@interface SearchViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *backBtn;
 
@@ -30,12 +30,11 @@
     [self.view addSubview:closeBtn];
     
     self.backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
-    [self.backBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.backBtn setTitle:@"返回" forState:UIControlStateNormal];
     [self.backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.backBtn];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
-    self.webView.delegate = self;
     [self.view addSubview:self.webView];
     
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.searchKey]];
@@ -54,7 +53,11 @@
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
     [self.searchTypeBtn setTitle:[searchTypeArray objectAtIndex:self.searchTypeIndex] forState:UIControlStateNormal];
+    [self.searchTypeBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     self.searchTypeBtn.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(selectSearchType)];
+    [self.searchTypeBtn addGestureRecognizer:longPressGesture];
     [self.view addSubview:self.searchTypeBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboadWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -83,6 +86,11 @@
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.textField.text]];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
+}
+
+- (void)selectSearchType
+{
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,17 +130,6 @@
     self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.view.frame.size.height-SearchButtonHeight, self.textField.frame.size.width, self.textField.frame.size.height);
     self.searchTypeBtn.frame = CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight);
     [UIView commitAnimations];
-}
-
--(void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    if (self.webView.canGoBack) {
-        [self.backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    }
-    else
-    {
-        [self.backBtn setTitle:@"关闭" forState:UIControlStateNormal];
-    }
 }
 
 @end

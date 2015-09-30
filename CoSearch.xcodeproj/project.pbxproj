@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0B6F249CE0C29B1D5C81219F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3035468F30EA45E5F18ADE56 /* libPods.a */; };
-		1025CE871BA2AE750055D78A /* SearchTypeCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1025CE851BA2AE750055D78A /* SearchTypeCollectionCell.m */; };
-		1025CE881BA2AE750055D78A /* SearchTypeCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1025CE861BA2AE750055D78A /* SearchTypeCollectionCell.xib */; };
 		1025CE8B1BA2CFE70055D78A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1025CE8A1BA2CFE70055D78A /* SearchViewController.m */; };
+		1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */; };
 		10A3C1211BA1D26D000C88C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1201BA1D26D000C88C4 /* main.m */; };
 		10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1231BA1D26D000C88C4 /* AppDelegate.m */; };
 		10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1261BA1D26D000C88C4 /* ViewController.m */; };
@@ -32,11 +31,10 @@
 
 /* Begin PBXFileReference section */
 		0D6C3E9A593997816ECF7494 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		1025CE841BA2AE750055D78A /* SearchTypeCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTypeCollectionCell.h; sourceTree = "<group>"; };
-		1025CE851BA2AE750055D78A /* SearchTypeCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTypeCollectionCell.m; sourceTree = "<group>"; };
-		1025CE861BA2AE750055D78A /* SearchTypeCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchTypeCollectionCell.xib; sourceTree = "<group>"; };
 		1025CE891BA2CFE70055D78A /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		1025CE8A1BA2CFE70055D78A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		1091DA8C1BBBD418004EDE9B /* SearchTypeCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTypeCollectionCell.h; sourceTree = "<group>"; };
+		1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTypeCollectionCell.m; sourceTree = "<group>"; };
 		10A3C11B1BA1D26D000C88C4 /* CoSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10A3C11F1BA1D26D000C88C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10A3C1201BA1D26D000C88C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -100,9 +98,8 @@
 				10A3C1231BA1D26D000C88C4 /* AppDelegate.m */,
 				10A3C1251BA1D26D000C88C4 /* ViewController.h */,
 				10A3C1261BA1D26D000C88C4 /* ViewController.m */,
-				1025CE841BA2AE750055D78A /* SearchTypeCollectionCell.h */,
-				1025CE851BA2AE750055D78A /* SearchTypeCollectionCell.m */,
-				1025CE861BA2AE750055D78A /* SearchTypeCollectionCell.xib */,
+				1091DA8C1BBBD418004EDE9B /* SearchTypeCollectionCell.h */,
+				1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */,
 				1025CE891BA2CFE70055D78A /* SearchViewController.h */,
 				1025CE8A1BA2CFE70055D78A /* SearchViewController.m */,
 				10A3C1281BA1D26D000C88C4 /* Main.storyboard */,
@@ -240,7 +237,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				10A3C12A1BA1D26D000C88C4 /* Main.storyboard in Resources */,
-				1025CE881BA2AE750055D78A /* SearchTypeCollectionCell.xib in Resources */,
 				10A3C12F1BA1D26D000C88C4 /* LaunchScreen.xib in Resources */,
 				10A3C12C1BA1D26D000C88C4 /* Images.xcassets in Resources */,
 			);
@@ -309,8 +305,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */,
-				1025CE871BA2AE750055D78A /* SearchTypeCollectionCell.m in Sources */,
 				1025CE8B1BA2CFE70055D78A /* SearchViewController.m in Sources */,
+				1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */,
 				10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */,
 				10A3C1211BA1D26D000C88C4 /* main.m in Sources */,
 			);

@@ -2,7 +2,7 @@
 //  SearchTypeCollectionCell.h
 //  CoSearch
 //
-//  Created by Fnoz on 15/9/11.
+//  Created by Fnoz on 15/9/30.
 //  Copyright (c) 2015年 Fnoz. All rights reserved.
 //
 
@@ -10,6 +10,7 @@
 
 @interface SearchTypeCollectionCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *searchTypeLabel;
+@property (nonatomic, strong) UILabel *searchTypeLabel;
+@property (nonatomic, strong) UIImageView *searchTypeImageView;
 
 @end

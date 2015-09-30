@@ -8,8 +8,8 @@
 
 #import "ViewController.h"
 #import "SearchViewController.h"
-#import "SearchTypeCollectionCell.h"
 #import "AppDelegate.h"
+#import "SearchTypeCollectionCell.h"
 
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
@@ -40,7 +40,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, StatusBarHeight, self.view.frame.size.width, SearchFieldHeight)];
     self.textField.backgroundColor = [UIColor whiteColor];
-    self.textField.placeholder = @"输入关键字，并点击希望的搜索引擎";
+    self.textField.placeholder = @"输入关键字，点击搜索引擎";
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, self.textField.frame.size.height)];
     [self.view addSubview:self.textField];
@@ -53,7 +53,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.collectionView.delegate=self;
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    [self.collectionView registerNib:[UINib nibWithNibName:@"SearchTypeCollectionCell" bundle:nil] forCellWithReuseIdentifier:kSearchTypeCollectionCellID];
+    [self.collectionView registerClass:[SearchTypeCollectionCell class] forCellWithReuseIdentifier:kSearchTypeCollectionCellID];
     [self.view addSubview:self.collectionView];
 }
 
@@ -75,13 +75,11 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchTypeCollectionCell *cell = (SearchTypeCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchTypeCollectionCellID forIndexPath:indexPath];
+    SearchTypeCollectionCell *cell = (SearchTypeCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchTypeCollectionCellID forIndexPath:indexPath];    
     cell.contentView.backgroundColor = [UIColor colorWithWhite:0.85+indexPath.row%2*0.05 alpha:1];
 
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
-    
-    cell.searchTypeLabel.frame = CGRectMake(0, cell.frame.size.height*0.7, cell.frame.size.width, cell.frame.size.height*0.2);
     NSString *searchTypeText;
     if (indexPath.row>=searchTypeArray.count)
     {
@@ -91,7 +89,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     {
         searchTypeText = [searchTypeArray objectAtIndex:indexPath.row];
     }
-    cell.searchTypeLabel.text = searchTypeText;    
+    cell.searchTypeLabel.text = searchTypeText;
     return cell;
 }
 
