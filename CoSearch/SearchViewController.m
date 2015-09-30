@@ -11,7 +11,9 @@
 
 #define SearchButtonHeight 45.0f
 
-@interface SearchViewController () <UITextFieldDelegate>
+@interface SearchViewController () <UITextFieldDelegate, UIWebViewDelegate>
+
+@property (nonatomic, strong) UIButton *backBtn;
 
 @end
 
@@ -27,12 +29,13 @@
     [closeBtn addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];
     
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
-    [backBtn setTitle:@"后退" forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBtn];
+    self.backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
+    [self.backBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.backBtn];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
+    self.webView.delegate = self;
     [self.view addSubview:self.webView];
     
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.searchKey]];
@@ -61,7 +64,13 @@
 
 - (void)backPage
 {
-    [self.webView goBack];
+    if (self.webView.canGoBack) {
+        [self.webView goBack];
+    }
+    else
+    {
+        [self closePage];
+    }
 }
 
 - (void)closePage
@@ -113,6 +122,17 @@
     self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.view.frame.size.height-SearchButtonHeight, self.textField.frame.size.width, self.textField.frame.size.height);
     self.searchTypeBtn.frame = CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight);
     [UIView commitAnimations];
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    if (self.webView.canGoBack) {
+        [self.backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.backBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    }
 }
 
 @end
