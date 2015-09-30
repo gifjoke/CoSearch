@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UITextField *textField;
 
 @end
 

@@ -14,9 +14,26 @@
 
 @implementation AppDelegate
 
+static AppDelegate *lofterApp = nil;
+
++ (AppDelegate *)sharedAppDelegate {
+    if (!lofterApp) {
+        lofterApp = [[AppDelegate alloc] init];
+    }
+    return lofterApp;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
+    appDelegate.searchTypeArray = [NSMutableArray array];
+    [appDelegate.searchTypeArray addObject:@"Baidu"];
+    [appDelegate.searchTypeArray addObject:@"Google"];
+    
+    appDelegate.searchTypeAndSearchStringDic = [NSMutableDictionary dictionary];
+    [appDelegate.searchTypeAndSearchStringDic setObject:@"http://carbyne.net.cn/#q=%@" forKey:@"Google"];
+    [appDelegate.searchTypeAndSearchStringDic setObject:@"https://www.baidu.com/s?wd=%@" forKey:@"Baidu"];
+    
     return YES;
 }
 

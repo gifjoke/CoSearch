@@ -11,7 +11,10 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSMutableArray *searchTypeArray;
+@property (strong, nonatomic) NSMutableDictionary *searchTypeAndSearchStringDic;
 
++ (AppDelegate *)sharedAppDelegate;
 
 @end
 
