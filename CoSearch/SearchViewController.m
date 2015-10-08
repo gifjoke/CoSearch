@@ -8,12 +8,13 @@
 
 #import "SearchViewController.h"
 #import "AppDelegate.h"
+#import "SearchType.h"
 
 #define SearchButtonHeight 45.0f
 
-@interface SearchViewController () <UITextFieldDelegate>
+@interface SearchViewController () <UITextFieldDelegate, UIWebViewDelegate>
 
-@property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) UIButton *closeBtn;
 
 @end
 
@@ -24,17 +25,19 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     
-    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, 20.0f, 60.0f, 44.0f)];
-    [closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
-    [closeBtn addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:closeBtn];
+    self.closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, 20.0f, 60.0f, 44.0f)];
+    [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    [self.closeBtn addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
+    self.closeBtn.hidden = YES;
+    [self.view addSubview:self.closeBtn];
     
-    self.backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
-    [self.backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [self.backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.backBtn];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
+    self.webView.delegate = self;
     [self.view addSubview:self.webView];
     
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.searchKey]];
@@ -52,7 +55,7 @@
     self.searchTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight)];
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
-    [self.searchTypeBtn setTitle:[searchTypeArray objectAtIndex:self.searchTypeIndex] forState:UIControlStateNormal];
+    [self.searchTypeBtn setTitle:((SearchType *)[searchTypeArray objectAtIndex:self.searchTypeIndex]).searchTypeName forState:UIControlStateNormal];
     [self.searchTypeBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     self.searchTypeBtn.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     
@@ -130,6 +133,17 @@
     self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.view.frame.size.height-SearchButtonHeight, self.textField.frame.size.width, self.textField.frame.size.height);
     self.searchTypeBtn.frame = CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight);
     [UIView commitAnimations];
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    if (self.webView.canGoBack) {
+        self.closeBtn.hidden = NO;
+    }
+    else
+    {
+        self.closeBtn.hidden = YES;
+    }
 }
 
 @end

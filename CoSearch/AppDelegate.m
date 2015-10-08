@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SearchType.h"
 
 @interface AppDelegate ()
 
@@ -27,12 +28,19 @@ static AppDelegate *lofterApp = nil;
     
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     appDelegate.searchTypeArray = [NSMutableArray array];
-    [appDelegate.searchTypeArray addObject:@"Baidu"];
-    [appDelegate.searchTypeArray addObject:@"Google"];
     
-    appDelegate.searchTypeAndSearchStringDic = [NSMutableDictionary dictionary];
-    [appDelegate.searchTypeAndSearchStringDic setObject:@"http://google.sidney-aldebaran.me/search?q=%@" forKey:@"Google"];
-    [appDelegate.searchTypeAndSearchStringDic setObject:@"https://www.baidu.com/s?wd=%@" forKey:@"Baidu"];
+    
+    SearchType *searchType0 = [[SearchType alloc] init];
+    searchType0.searchTypeName = @"百度";
+    searchType0.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
+    searchType0.searchTypeImageName = @"baidu";
+    [appDelegate.searchTypeArray addObject:searchType0];
+    
+    SearchType *searchType1 = [[SearchType alloc] init];
+    searchType1.searchTypeName = @"谷歌";
+    searchType1.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
+    searchType1.searchTypeImageName = @"google";
+    [appDelegate.searchTypeArray addObject:searchType1];
     
     return YES;
 }

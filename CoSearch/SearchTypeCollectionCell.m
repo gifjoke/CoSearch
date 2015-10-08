@@ -19,7 +19,7 @@
         [self.contentView addSubview:_searchTypeLabel];
         
         _searchTypeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _searchTypeImageView.backgroundColor = [UIColor lightGrayColor];
+        _searchTypeImageView.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:_searchTypeImageView];
     }
     return self;

@@ -10,6 +10,7 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "SearchTypeCollectionCell.h"
+#import "SearchType.h"
 
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
@@ -65,7 +66,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return (20/3+1)*3;
+    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
+    return ((appDelegate.searchTypeArray.count)/3+1)*3;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -81,15 +83,23 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
     NSString *searchTypeText;
-    if (indexPath.row>=searchTypeArray.count)
+    UIImage *searchTypeImage;
+    if (indexPath.row<searchTypeArray.count)
     {
-        searchTypeText = @"空缺";
+        searchTypeText = ((SearchType *)[searchTypeArray objectAtIndex:indexPath.row]).searchTypeName;
+        searchTypeImage = [UIImage imageNamed:((SearchType *)[searchTypeArray objectAtIndex:indexPath.row]).searchTypeImageName];
+    }
+    else if (indexPath.row == searchTypeArray.count)
+    {
+        searchTypeText = @"添加";
+        searchTypeImage = [UIImage imageNamed:@"addSearchType"];
     }
     else
     {
-        searchTypeText = [searchTypeArray objectAtIndex:indexPath.row];
+        searchTypeText = @"";
     }
     cell.searchTypeLabel.text = searchTypeText;
+    cell.searchTypeImageView.image = searchTypeImage;
     return cell;
 }
 
@@ -113,15 +123,19 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SearchViewController *searchVC = [[SearchViewController alloc] init];
-    
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
-    NSMutableDictionary *searchTypeAndSearchStringDic = appDelegate.searchTypeAndSearchStringDic;
-    
-    searchVC.searchKey = self.textField.text;
-    searchVC.urlFormatStr = [searchTypeAndSearchStringDic objectForKey:[searchTypeArray objectAtIndex:indexPath.row]];
-    searchVC.searchTypeIndex = indexPath.row;
-    [self presentViewController:searchVC animated:YES completion:nil];
+    if (indexPath.row<appDelegate.searchTypeArray.count)
+    {
+        NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;        
+        searchVC.searchKey = self.textField.text;
+        searchVC.urlFormatStr = ((SearchType *)[searchTypeArray objectAtIndex:indexPath.row]).searchTypeModel;
+        searchVC.searchTypeIndex = indexPath.row;
+        [self presentViewController:searchVC animated:YES completion:nil];
+    }
+    else if(indexPath.row == appDelegate.searchTypeArray.count)
+    {
+        //fnoztodo 添加引擎
+    }
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
