@@ -127,7 +127,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     if (indexPath.row<appDelegate.searchTypeArray.count)
     {
         NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;        
-        searchVC.searchKey = self.textField.text;
+        searchVC.oriSearchKey = self.textField.text;
         searchVC.urlFormatStr = ((SearchType *)[searchTypeArray objectAtIndex:indexPath.row]).searchTypeModel;
         searchVC.searchTypeIndex = indexPath.row;
         [self presentViewController:searchVC animated:YES completion:nil];

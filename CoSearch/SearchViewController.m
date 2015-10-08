@@ -40,13 +40,14 @@
     self.webView.delegate = self;
     [self.view addSubview:self.webView];
     
-    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.searchKey]];
+    NSString *searchKeyString = [self.oriSearchKey stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,searchKeyString]];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-SearchButtonHeight, self.view.frame.size.width-60.0f, SearchButtonHeight)];
     self.textField.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-    self.textField.text = self.searchKey;
+    self.textField.text = self.oriSearchKey;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     self.textField.delegate = self;
     self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, self.textField.frame.size.height)];
@@ -86,7 +87,8 @@
 
 - (void)search
 {
-    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr,self.textField.text]];
+    NSString *searchKeyString = [self.textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.urlFormatStr, searchKeyString]];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
 }

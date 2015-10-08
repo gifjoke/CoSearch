@@ -48,6 +48,12 @@ static AppDelegate *lofterApp = nil;
     searchType2.searchTypeImageName = @"google";
     [appDelegate.searchTypeArray addObject:searchType2];
     
+    SearchType *searchType3 = [[SearchType alloc] init];
+    searchType3.searchTypeName = @"好搜";
+    searchType3.searchTypeModel = @"http://www.haosou.com/s?q=%@";
+    searchType3.searchTypeImageName = @"haosou";
+    [appDelegate.searchTypeArray addObject:searchType3];
+    
     return YES;
 }
 

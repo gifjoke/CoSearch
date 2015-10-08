@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NSString *urlFormatStr;
-@property (nonatomic, strong) NSString *searchKey;
+@property (nonatomic, strong) NSString *oriSearchKey;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *searchTypeBtn;
 @property (nonatomic, assign) NSInteger searchTypeIndex;
