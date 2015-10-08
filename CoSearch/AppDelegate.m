@@ -37,10 +37,16 @@ static AppDelegate *lofterApp = nil;
     [appDelegate.searchTypeArray addObject:searchType0];
     
     SearchType *searchType1 = [[SearchType alloc] init];
-    searchType1.searchTypeName = @"谷歌";
-    searchType1.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
-    searchType1.searchTypeImageName = @"google";
+    searchType1.searchTypeName = @"必应";
+    searchType1.searchTypeModel = @"http://cn.bing.com/search?q=%@";
+    searchType1.searchTypeImageName = @"bing";
     [appDelegate.searchTypeArray addObject:searchType1];
+    
+    SearchType *searchType2 = [[SearchType alloc] init];
+    searchType2.searchTypeName = @"谷歌";
+    searchType2.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
+    searchType2.searchTypeImageName = @"google";
+    [appDelegate.searchTypeArray addObject:searchType2];
     
     return YES;
 }

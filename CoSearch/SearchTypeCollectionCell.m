@@ -19,7 +19,8 @@
         [self.contentView addSubview:_searchTypeLabel];
         
         _searchTypeImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _searchTypeImageView.backgroundColor = [UIColor clearColor];
+        _searchTypeImageView.backgroundColor = [UIColor whiteColor];
+        _searchTypeImageView.clipsToBounds = YES;
         [self.contentView addSubview:_searchTypeImageView];
     }
     return self;
@@ -28,6 +29,7 @@
 -(void)layoutSubviews{
     self.searchTypeLabel.frame = CGRectMake(0, self.frame.size.height*0.72, self.frame.size.width, self.frame.size.height*0.2);
     self.searchTypeImageView.frame = CGRectMake(self.frame.size.height*0.25, self.frame.size.height*0.2, self.frame.size.width*0.5, self.frame.size.height*0.5);
+    self.searchTypeImageView.layer.cornerRadius = self.searchTypeImageView.frame.size.height*0.5;
 }
 
 @end
