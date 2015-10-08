@@ -54,6 +54,12 @@ static AppDelegate *lofterApp = nil;
     searchType3.searchTypeImageName = @"haosou";
     [appDelegate.searchTypeArray addObject:searchType3];
     
+    SearchType *searchType4 = [[SearchType alloc] init];
+    searchType4.searchTypeName = @"微博搜索";
+    searchType4.searchTypeModel = @"http://s.weibo.com/weibo/%@";
+    searchType4.searchTypeImageName = @"weibo";
+    [appDelegate.searchTypeArray addObject:searchType4];
+    
     return YES;
 }
 
