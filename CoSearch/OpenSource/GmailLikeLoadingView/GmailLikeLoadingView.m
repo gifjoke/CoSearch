@@ -45,7 +45,7 @@ typedef enum {
 
         CGFloat diameter = MIN(self.frame.size.width, self.frame.size.height);
         
-        colorsArray = [NSMutableArray arrayWithObjects:[UIColor colorWithRed:0.0/255.0f green:147.0/255.0f blue:78.0/255.0f alpha:1.0],[UIColor colorWithRed:20.0/255.0f green:99.0/255.0f blue:233.0/255.0 alpha:1.0],[UIColor colorWithRed:255.0/255.0f green:199.0/255.0f blue:12.0/255.0f alpha:1.0],[UIColor colorWithRed:221.0/255.0f green:0.0/255.0f blue:31.0/255.0 alpha:1.0], nil];
+        colorsArray = [NSMutableArray arrayWithObjects:[UIColor colorWithWhite:0.9 alpha:1],[UIColor colorWithWhite:0.8 alpha:1],[UIColor colorWithWhite:0.75 alpha:1], nil];
         
         frontLayerView = [[UIView alloc] init];
         [frontLayerView setBackgroundColor:[UIColor clearColor]];

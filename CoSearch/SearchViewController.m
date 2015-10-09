@@ -9,7 +9,6 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "SearchType.h"
-#import "RZSquaresLoading.h"
 #import "GmailLikeLoadingView.h"
 
 #define SearchButtonHeight 45.0f
@@ -31,18 +30,18 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     
-    self.closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60, 20.0f, 60.0f, 44.0f)];
-    [self.closeBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    self.closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, 20.0f+13, 44.0f-25, 44.0f-25)];
+    [self.closeBtn setImage:[UIImage imageNamed:@"closeWhite"] forState:UIControlStateNormal];
     [self.closeBtn addTarget:self action:@selector(closePage) forControlEvents:UIControlEventTouchUpInside];
     self.closeBtn.hidden = YES;
     [self.view addSubview:self.closeBtn];
     
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 60.0f, 44.0f)];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10.0f, 20.0f+5, 60.0f, 44.0f-10)];
+    [backBtn setImage:[UIImage imageNamed:@"backWhite"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
     
-    self.loadingView = [[GmailLikeLoadingView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)*0.5, (44-30)*0.5+20.0f, 30, 30)];
+    self.loadingView = [[GmailLikeLoadingView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-40)*0.5, (44-20)*0.5+20.0f, 40, 20)];
     [self.view addSubview:self.loadingView];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
@@ -166,14 +165,20 @@
 - (void)showLoadingView
 {
     if (self.loadingView) {
-        [self.loadingView startAnimating];
+        
+        if (!self.loadingView.isAnimating)
+        {
+            [self.loadingView startAnimating];
+        }
     }
 }
 
 - (void)hideLoadingView
 {
     if (self.loadingView) {
-        [self.loadingView stopAnimating];
+        if (self.loadingView.isAnimating) {
+            [self.loadingView stopAnimating];
+        }
     }
 }
 
