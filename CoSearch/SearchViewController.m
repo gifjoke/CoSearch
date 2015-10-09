@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "SearchType.h"
 #import "RZSquaresLoading.h"
+#import "GmailLikeLoadingView.h"
 
 #define SearchButtonHeight 45.0f
 
@@ -19,7 +20,7 @@
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *searchTypeBtn;
-@property (nonatomic, strong) RZSquaresLoading *loadingView;
+@property (nonatomic, strong) GmailLikeLoadingView *loadingView;
 
 @end
 
@@ -40,6 +41,9 @@
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+    
+    self.loadingView = [[GmailLikeLoadingView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)*0.5, (44-30)*0.5+20.0f, 30, 30)];
+    [self.view addSubview:self.loadingView];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
     self.webView.delegate = self;
@@ -161,18 +165,15 @@
 
 - (void)showLoadingView
 {
-    if (nil == self.loadingView) {
-        self.loadingView = [[RZSquaresLoading alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)*0.5, (44-30)*0.5+20.0f, 30, 30)];
-        self.loadingView.color = [UIColor whiteColor];
-        [self.view addSubview:self.loadingView];
+    if (self.loadingView) {
+        [self.loadingView startAnimating];
     }
 }
 
 - (void)hideLoadingView
 {
     if (self.loadingView) {
-        [self.loadingView removeFromSuperview];
-        self.loadingView = nil;
+        [self.loadingView stopAnimating];
     }
 }
 

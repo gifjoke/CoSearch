@@ -18,7 +18,7 @@
 		10A3C12C1BA1D26D000C88C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10A3C12B1BA1D26D000C88C4 /* Images.xcassets */; };
 		10A3C12F1BA1D26D000C88C4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10A3C12D1BA1D26D000C88C4 /* LaunchScreen.xib */; };
 		10A3C13B1BA1D26D000C88C4 /* CoSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C13A1BA1D26D000C88C4 /* CoSearchTests.m */; };
-		10EF7FAB1BC7727400A18F50 /* RZSquaresLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7FAA1BC7727400A18F50 /* RZSquaresLoading.m */; };
+		10EF7FBD1BC7989000A18F50 /* GmailLikeLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10EF7FBC1BC7989000A18F50 /* GmailLikeLoadingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +52,8 @@
 		10A3C1341BA1D26D000C88C4 /* CoSearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoSearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		10A3C1391BA1D26D000C88C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10A3C13A1BA1D26D000C88C4 /* CoSearchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoSearchTests.m; sourceTree = "<group>"; };
-		10EF7FA91BC7727400A18F50 /* RZSquaresLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZSquaresLoading.h; sourceTree = "<group>"; };
-		10EF7FAA1BC7727400A18F50 /* RZSquaresLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZSquaresLoading.m; sourceTree = "<group>"; };
+		10EF7FBB1BC7989000A18F50 /* GmailLikeLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmailLikeLoadingView.h; sourceTree = "<group>"; };
+		10EF7FBC1BC7989000A18F50 /* GmailLikeLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GmailLikeLoadingView.m; sourceTree = "<group>"; };
 		3035468F30EA45E5F18ADE56 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		35A1ABA921BD8F72E86E093E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,18 +148,18 @@
 		10EF7FA71BC7727400A18F50 /* OpenSource */ = {
 			isa = PBXGroup;
 			children = (
-				10EF7FA81BC7727400A18F50 /* RZSquaresLoading */,
+				10EF7FBA1BC7989000A18F50 /* GmailLikeLoadingView */,
 			);
 			path = OpenSource;
 			sourceTree = "<group>";
 		};
-		10EF7FA81BC7727400A18F50 /* RZSquaresLoading */ = {
+		10EF7FBA1BC7989000A18F50 /* GmailLikeLoadingView */ = {
 			isa = PBXGroup;
 			children = (
-				10EF7FA91BC7727400A18F50 /* RZSquaresLoading.h */,
-				10EF7FAA1BC7727400A18F50 /* RZSquaresLoading.m */,
+				10EF7FBB1BC7989000A18F50 /* GmailLikeLoadingView.h */,
+				10EF7FBC1BC7989000A18F50 /* GmailLikeLoadingView.m */,
 			);
-			path = RZSquaresLoading;
+			path = GmailLikeLoadingView;
 			sourceTree = "<group>";
 		};
 		3F22A385F540575EF585A78E /* Frameworks */ = {
@@ -331,11 +331,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */,
+				10EF7FBD1BC7989000A18F50 /* GmailLikeLoadingView.m in Sources */,
 				1025CE8B1BA2CFE70055D78A /* SearchViewController.m in Sources */,
 				1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */,
 				10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */,
 				10A3C1211BA1D26D000C88C4 /* main.m in Sources */,
-				10EF7FAB1BC7727400A18F50 /* RZSquaresLoading.m in Sources */,
 				1091DA911BBBEF9E004EDE9B /* SearchType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
