@@ -9,12 +9,17 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "SearchType.h"
+#import "RZSquaresLoading.h"
 
 #define SearchButtonHeight 45.0f
 
 @interface SearchViewController () <UITextFieldDelegate, UIWebViewDelegate>
 
 @property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) UIButton *searchTypeBtn;
+@property (nonatomic, strong) RZSquaresLoading *loadingView;
 
 @end
 
@@ -137,6 +142,11 @@
     [UIView commitAnimations];
 }
 
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self showLoadingView];
+}
+
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
     if (self.webView.canGoBack) {
@@ -145,6 +155,24 @@
     else
     {
         self.closeBtn.hidden = YES;
+    }
+    [self hideLoadingView];
+}
+
+- (void)showLoadingView
+{
+    if (nil == self.loadingView) {
+        self.loadingView = [[RZSquaresLoading alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)*0.5, (44-30)*0.5+20.0f, 30, 30)];
+        self.loadingView.color = [UIColor whiteColor];
+        [self.view addSubview:self.loadingView];
+    }
+}
+
+- (void)hideLoadingView
+{
+    if (self.loadingView) {
+        [self.loadingView removeFromSuperview];
+        self.loadingView = nil;
     }
 }
 
