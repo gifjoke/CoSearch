@@ -55,10 +55,16 @@ static AppDelegate *lofterApp = nil;
     [appDelegate.searchTypeArray addObject:searchType3];
     
     SearchType *searchType4 = [[SearchType alloc] init];
-    searchType4.searchTypeName = @"微博搜索";
+    searchType4.searchTypeName = @"微博";
     searchType4.searchTypeModel = @"http://s.weibo.com/weibo/%@";
     searchType4.searchTypeImageName = @"weibo";
     [appDelegate.searchTypeArray addObject:searchType4];
+    
+    SearchType *searchType5 = [[SearchType alloc] init];
+    searchType5.searchTypeName = @"搜狗";
+    searchType5.searchTypeModel = @"http://wap.sogou.com/web/searchList.jsp?keyword=%@";
+    searchType5.searchTypeImageName = @"sougou";
+    [appDelegate.searchTypeArray addObject:searchType5];
     
     return YES;
 }
