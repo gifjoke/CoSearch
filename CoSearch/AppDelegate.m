@@ -34,36 +34,42 @@ static AppDelegate *lofterApp = nil;
     searchType0.searchTypeName = @"百度";
     searchType0.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
     searchType0.searchTypeImageName = @"baidu";
+    searchType0.searchTypeId = 0;
     [appDelegate.searchTypeArray addObject:searchType0];
     
     SearchType *searchType1 = [[SearchType alloc] init];
     searchType1.searchTypeName = @"必应";
     searchType1.searchTypeModel = @"http://cn.bing.com/search?q=%@";
     searchType1.searchTypeImageName = @"bing";
+    searchType1.searchTypeId = 1;
     [appDelegate.searchTypeArray addObject:searchType1];
     
     SearchType *searchType2 = [[SearchType alloc] init];
     searchType2.searchTypeName = @"谷歌";
     searchType2.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
     searchType2.searchTypeImageName = @"google";
+    searchType2.searchTypeId = 2;
     [appDelegate.searchTypeArray addObject:searchType2];
     
     SearchType *searchType3 = [[SearchType alloc] init];
     searchType3.searchTypeName = @"好搜";
     searchType3.searchTypeModel = @"http://www.haosou.com/s?q=%@";
     searchType3.searchTypeImageName = @"haosou";
+    searchType3.searchTypeId = 3;
     [appDelegate.searchTypeArray addObject:searchType3];
     
     SearchType *searchType4 = [[SearchType alloc] init];
     searchType4.searchTypeName = @"微博";
     searchType4.searchTypeModel = @"http://s.weibo.com/weibo/%@";
     searchType4.searchTypeImageName = @"weibo";
+    searchType4.searchTypeId = 4;
     [appDelegate.searchTypeArray addObject:searchType4];
     
     SearchType *searchType5 = [[SearchType alloc] init];
     searchType5.searchTypeName = @"搜狗";
     searchType5.searchTypeModel = @"http://wap.sogou.com/web/searchList.jsp?keyword=%@";
     searchType5.searchTypeImageName = @"sougou";
+    searchType5.searchTypeId = 5;
     [appDelegate.searchTypeArray addObject:searchType5];
     
     return YES;

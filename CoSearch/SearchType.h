@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *searchTypeName;
 @property (nonatomic, strong) NSString *searchTypeImageName;
 @property (nonatomic, strong) NSString *searchTypeModel;
+@property (nonatomic, assign) NSInteger searchTypeId;
 
 @end

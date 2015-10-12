@@ -122,7 +122,7 @@
 {
     NSDictionary *info = [note userInfo];
     CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    CGFloat offY = (self.view.frame.size.height-keyboardSize.height)-self.textField.frame.size.height;//屏幕总高度-键盘高度-UITextField高度
+    CGFloat offY = (self.view.frame.size.height-keyboardSize.height)-self.textField.frame.size.height;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3];
     
@@ -138,7 +138,7 @@
  }
 
 -(void)keyboardWillHide:(NSNotification *)note{
-    [UIView beginAnimations:nil context:NULL];//此处添加动画，使之变化平滑一点
+    [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.3];
     self.textField.frame = CGRectMake(self.textField.frame.origin.x, self.view.frame.size.height-SearchButtonHeight, self.textField.frame.size.width, self.textField.frame.size.height);
     self.searchTypeBtn.frame = CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight);

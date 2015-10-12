@@ -18,37 +18,59 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
 
+@property (nonatomic, strong) UIButton *searchTypeBtn;
+@property (nonatomic, strong) UIButton *searchBtn;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:237/255.0f green:240/255.0f blue:244/255.0f alpha:1];
     
-    self.view.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    UIView *inputBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, StatusBarHeight+SearchFieldHeight)];
+    inputBgView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    [self.view addSubview:inputBgView];
     
-    UIView *wall0 = [[UIView alloc] initWithFrame:CGRectMake(0, SearchFieldHeight+StatusBarHeight, self.view.frame.size.width/3.0f, self.view.frame.size.height)];
-    wall0.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-    [self.view addSubview:wall0];
+    UIView *inputAngBtnBgView = [[UIView alloc] initWithFrame:CGRectMake(10, StatusBarHeight+8, self.view.frame.size.width-20, SearchFieldHeight-16)];
+    inputAngBtnBgView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
+    inputAngBtnBgView.layer.cornerRadius = 5.0f;
+    [self.view addSubview:inputAngBtnBgView];
     
-    UIView *wall1 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/3.0f, SearchFieldHeight+StatusBarHeight, self.view.frame.size.width/3.0f, self.view.frame.size.height)];
-    wall1.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-    [self.view addSubview:wall1];
+    self.searchTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
+    self.searchTypeBtn.layer.cornerRadius = 5.0f;
+    self.searchTypeBtn.clipsToBounds = YES;
+    self.searchTypeBtn.imageEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3);
+    self.searchTypeBtn.imageView.layer.cornerRadius = 5.0f;
+    self.searchTypeBtn.imageView.clipsToBounds = YES;
+    self.searchTypeBtn.imageView.layer.borderColor = [self.view.backgroundColor CGColor];
+    self.searchTypeBtn.imageView.layer.borderWidth = 2;
+    [inputAngBtnBgView addSubview:self.searchTypeBtn];
     
-    UIView *wall2 = [[UIView alloc] initWithFrame:CGRectMake(self.view.frame.size.width*2/3.0f, SearchFieldHeight+StatusBarHeight, self.view.frame.size.width/3.0f, self.view.frame.size.height)];
-    wall2.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-    [self.view addSubview:wall2];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger defaultSearchTypeId = [[defaults valueForKey:kSearchTypeCollectionCellID] integerValue];
+    [self.searchTypeBtn setImage:[UIImage imageNamed:[self getImageNameBySearchTypeId:defaultSearchTypeId]] forState:UIControlStateNormal];
     
-    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, StatusBarHeight, self.view.frame.size.width, SearchFieldHeight)];
+    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.height, 0, inputAngBtnBgView.frame.size.width-2*inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
     self.textField.backgroundColor = [UIColor whiteColor];
     self.textField.placeholder = @"输入关键字，点击搜索引擎";
+    self.textField.font = [UIFont systemFontOfSize:15.0f];
     self.textField.leftViewMode = UITextFieldViewModeAlways;
-    self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, self.textField.frame.size.height)];
-    [self.view addSubview:self.textField];
+    self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, self.textField.frame.size.height)];
+    self.textField.returnKeyType = UIReturnKeySearch;
+    [inputAngBtnBgView addSubview:self.textField];
+    
+    self.searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.width-40, 0, inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
+    self.searchBtn.layer.cornerRadius = 5.0f;
+    [self.searchBtn setImage:[UIImage imageNamed:@"goToSearch"] forState:UIControlStateNormal];
+    self.searchBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 12, 8, 4);
+    [self.searchBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [inputAngBtnBgView addSubview:self.searchBtn];
     
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, SearchFieldHeight+StatusBarHeight, self.view.frame.size.width, self.view.frame.size.height-SearchFieldHeight-StatusBarHeight) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, SearchFieldHeight+StatusBarHeight, self.view.frame.size.width-20, self.view.frame.size.height-SearchFieldHeight-StatusBarHeight) collectionViewLayout:flowLayout];
     [self.collectionView setBackgroundColor:[UIColor clearColor]];
     self.collectionView.dataSource=self;
     self.collectionView.delegate=self;
@@ -77,10 +99,13 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SearchTypeCollectionCell *cell = (SearchTypeCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchTypeCollectionCellID forIndexPath:indexPath];    
-    cell.contentView.backgroundColor = [UIColor colorWithWhite:0.85+indexPath.row%2*0.05 alpha:1];
-
+    SearchTypeCollectionCell *cell = (SearchTypeCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kSearchTypeCollectionCellID forIndexPath:indexPath];
+    
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
+    if (indexPath.row+2>appDelegate.searchTypeArray.count) {
+        cell.contentView.backgroundColor = [UIColor clearColor];
+    }
+    
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
     NSString *searchTypeText;
     UIImage *searchTypeImage;
@@ -106,7 +131,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(self.view.frame.size.width/3.0f, self.view.frame.size.width/3.0f);
+    return CGSizeMake(self.collectionView.frame.size.width/3.0f, self.collectionView.frame.size.width/3.0f);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
@@ -147,6 +172,17 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 {
     [textField endEditing:YES];
     return YES;
+}
+
+- (NSString *)getImageNameBySearchTypeId:(NSInteger)searchTypeId
+{
+    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
+    for (SearchType *searchType in appDelegate.searchTypeArray) {
+        if (searchType.searchTypeId == searchTypeId) {
+            return searchType.searchTypeImageName;
+        }
+    }
+    return nil;
 }
 
 @end
