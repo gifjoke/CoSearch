@@ -9,7 +9,6 @@
 #import "SearchViewController.h"
 #import "AppDelegate.h"
 #import "SearchType.h"
-#import "GmailLikeLoadingView.h"
 
 #define SearchButtonHeight 45.0f
 
@@ -19,7 +18,6 @@
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *searchTypeBtn;
-@property (nonatomic, strong) GmailLikeLoadingView *loadingView;
 
 @end
 
@@ -41,8 +39,17 @@
     [backBtn addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
     
-    self.loadingView = [[GmailLikeLoadingView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-40)*0.5, (44-20)*0.5+20.0f, 40, 20)];
-    [self.view addSubview:self.loadingView];
+    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
+    NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-100)*0.5, 20.0f, 100.0f, 44.0f)];
+    titleLabel.text = ((SearchType *)[searchTypeArray objectAtIndex:self.searchTypeIndex]).searchTypeName;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.font = [UIFont systemFontOfSize:17];
+    [self.view addSubview:titleLabel];
+    
+//    self.loadingView = [[GmailLikeLoadingView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-40)*0.5, (44-20)*0.5+20.0f, 40, 20)];
+//    [self.view addSubview:self.loadingView];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64.0f, self.view.frame.size.width, self.view.frame.size.height-64.0f-SearchButtonHeight)];
     self.webView.delegate = self;
@@ -62,9 +69,7 @@
     [self.view addSubview:self.textField];
     
     self.searchTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-60.0f, self.view.frame.size.height-SearchButtonHeight, 60.0f, SearchButtonHeight)];
-    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
-    [self.searchTypeBtn setTitle:((SearchType *)[searchTypeArray objectAtIndex:self.searchTypeIndex]).searchTypeName forState:UIControlStateNormal];
+    [self.searchTypeBtn setTitle:@"Go" forState:UIControlStateNormal];
     [self.searchTypeBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     self.searchTypeBtn.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
     
@@ -164,22 +169,22 @@
 
 - (void)showLoadingView
 {
-    if (self.loadingView) {
-        
-        if (!self.loadingView.isAnimating)
-        {
-            [self.loadingView startAnimating];
-        }
-    }
+//    if (self.loadingView) {
+//        
+//        if (!self.loadingView.isAnimating)
+//        {
+//            [self.loadingView startAnimating];
+//        }
+//    }
 }
 
 - (void)hideLoadingView
 {
-    if (self.loadingView) {
-        if (self.loadingView.isAnimating) {
-            [self.loadingView stopAnimating];
-        }
-    }
+//    if (self.loadingView) {
+//        if (self.loadingView.isAnimating) {
+//            [self.loadingView stopAnimating];
+//        }
+//    }
 }
 
 @end

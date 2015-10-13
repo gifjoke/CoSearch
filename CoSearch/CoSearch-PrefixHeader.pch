@@ -9,6 +9,7 @@
 #ifndef CoSearch_CoSearch_PrefixHeader_pch
 #define CoSearch_CoSearch_PrefixHeader_pch
 
+#import <UIKit/UIKit.h>
 #import "ConstDef.h"
 
 #endif

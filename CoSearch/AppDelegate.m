@@ -35,6 +35,7 @@ static AppDelegate *lofterApp = nil;
     searchType0.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
     searchType0.searchTypeImageName = @"baidu";
     searchType0.searchTypeId = 0;
+    searchType0.offsetY = 92;
     [appDelegate.searchTypeArray addObject:searchType0];
     
     SearchType *searchType1 = [[SearchType alloc] init];
