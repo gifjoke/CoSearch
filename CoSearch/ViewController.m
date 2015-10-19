@@ -17,13 +17,15 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *searchTypeBtn;
 @property (nonatomic, strong) UIButton *searchBtn;
 @property (nonatomic, strong) UIView *webViewContainer;
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) NSString *urlFormatStr;
 @property (nonatomic, strong) SearchType *currentType;
 @property (nonatomic, strong) UIView *webViewTopMaskView;
+@property (nonatomic, strong) UIButton *reloadPageBtn;
 
 @end
 
@@ -52,8 +54,15 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.searchTypeBtn.imageView.layer.borderWidth = 2;
     [inputAngBtnBgView addSubview:self.searchTypeBtn];
     
+    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSInteger defaultSearchTypeId = [[defaults valueForKey:kSearchTypeCollectionCellID] integerValue];
+    if (!defaultSearchTypeId)
+    {
+        defaultSearchTypeId = 0;
+        [defaults setObject:@(defaultSearchTypeId) forKey:kSearchTypeCollectionCellID];
+    }
+    self.currentType = [appDelegate.searchTypeArray objectAtIndex:defaultSearchTypeId];
     [self.searchTypeBtn setImage:[UIImage imageNamed:[self getImageNameBySearchTypeId:defaultSearchTypeId]] forState:UIControlStateNormal];
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.height, 0, inputAngBtnBgView.frame.size.width-2*inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
@@ -64,12 +73,13 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, self.textField.frame.size.height)];
     self.textField.returnKeyType = UIReturnKeySearch;
     [inputAngBtnBgView addSubview:self.textField];
-    
+        
     self.searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.width-40, 0, inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
     self.searchBtn.layer.cornerRadius = 5.0f;
     [self.searchBtn setImage:[UIImage imageNamed:@"goToSearch"] forState:UIControlStateNormal];
     self.searchBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 12, 8, 4);
     [self.searchBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [self.searchBtn addTarget:self action:@selector(searchBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [inputAngBtnBgView addSubview:self.searchBtn];
     
     UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
@@ -99,7 +109,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    return ((appDelegate.searchTypeArray.count)/3+1)*3;
+    return appDelegate.searchTypeArray.count+1;
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -158,15 +168,24 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    if (indexPath.row<appDelegate.searchTypeArray.count)
+    if (indexPath.row >= appDelegate.searchTypeArray.count) //添加搜索引擎
     {
-        NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
-        self.currentType = (SearchType *)[searchTypeArray objectAtIndex:indexPath.row];
-        [self search];
+        //fnoztodo
+        return;
     }
-    else if(indexPath.row == appDelegate.searchTypeArray.count)
+    
+    NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
+    self.currentType = (SearchType *)[searchTypeArray objectAtIndex:indexPath.row];
+    if ([self.textField.text isEqualToString:@""]) //切换默认搜索引擎
     {
-        //fnoztodo 添加引擎
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:@(indexPath.row) forKey:kSearchTypeCollectionCellID];
+        [self.searchTypeBtn setImage:[UIImage imageNamed:self.currentType.searchTypeImageName] forState:UIControlStateNormal];
+    }
+    else //应用搜索引擎
+    {
+        [self.searchTypeBtn setImage:[UIImage imageNamed:self.currentType.searchTypeImageName] forState:UIControlStateNormal];
+        [self search];
     }
 }
 
@@ -185,7 +204,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 #pragma mark UIWebViewDelegate
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
-//    [self showLoadingView];
+    NSLog(@"bbb");
+    [self changeReloadBtnStatusIsReload:NO];
     self.webView.frame = CGRectMake(0, -self.currentType.offsetY, self.webViewContainer.frame.size.width, self.webViewContainer.frame.size.height-48+self.currentType.offsetY);
     self.webViewTopMaskView.frame = CGRectMake(0, 0, self.webView.frame.size.width, self.currentType.offsetY);
     [self.webView.scrollView addSubview:self.webViewTopMaskView];
@@ -193,16 +213,9 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-//    if (self.webView.canGoBack) {
-//        self.closeBtn.hidden = NO;
-//    }
-//    else
-//    {
-//        self.closeBtn.hidden = YES;
-//    }
-//    [self hideLoadingView];
+    NSLog(@"ccc");
+    [self changeReloadBtnStatusIsReload:YES];
 }
-
 
 #pragma mark Common
 - (NSString *)getImageNameBySearchTypeId:(NSInteger)searchTypeId
@@ -240,11 +253,11 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     [backPage addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     [self.webViewContainer addSubview:backPage];
     
-    UIButton *reloadPage = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/5.0, self.webView.frame.size.height+1, self.view.frame.size.width/5.0, 47)];
-    [reloadPage setImage:[UIImage imageNamed:@"reloadPage"] forState:UIControlStateNormal];
-    reloadPage.imageEdgeInsets = UIEdgeInsetsMake(10, 10+0.5*(backPage.frame.size.width-47), 10, 10+0.5*(backPage.frame.size.width-47));
-    [reloadPage addTarget:self action:@selector(reloadPage) forControlEvents:UIControlEventTouchUpInside];
-    [self.webViewContainer addSubview:reloadPage];
+    self.reloadPageBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/5.0, self.webView.frame.size.height+1, self.view.frame.size.width/5.0, 47)];
+    [self.reloadPageBtn setImage:[UIImage imageNamed:@"reloadPage"] forState:UIControlStateNormal];
+    self.reloadPageBtn.imageEdgeInsets = UIEdgeInsetsMake(10, 10+0.5*(backPage.frame.size.width-47), 10, 10+0.5*(backPage.frame.size.width-47));
+    [self.reloadPageBtn addTarget:self action:@selector(reloadPage) forControlEvents:UIControlEventTouchUpInside];
+    [self.webViewContainer addSubview:self.reloadPageBtn];
     
     UIButton *closeWebView = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width/5.0*2, self.webView.frame.size.height+1, self.view.frame.size.width/5.0, 47)];
     [closeWebView setImage:[UIImage imageNamed:@"home"] forState:UIControlStateNormal];
@@ -267,12 +280,24 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 - (void)backPage
 {
-    
+    if (self.webView.canGoBack) {
+        [self.webView goBack];
+    }
+    else
+    {
+        [self closeWebView];
+    }
 }
 
 - (void)reloadPage
 {
-    
+    if ([self.webView isLoading]) {
+        [self stopLoading];
+    }
+    else
+    {
+        [self reloading];
+    }
 }
 
 - (void)closeWebView
@@ -282,27 +307,72 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 - (void)copyUrl
 {
-    
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.webView.request.URL.absoluteString;
 }
 
 - (void)openInSafari
 {
-    
+    [[UIApplication sharedApplication] openURL:self.webView.request.URL];
+}
+
+- (void)stopLoading
+{
+    [self.webView stopLoading];
+    [self changeReloadBtnStatusIsReload:YES];
+}
+
+- (void)reloading
+{
+    [self.webView reload];
+}
+
+- (void)changeReloadBtnStatusIsReload:(BOOL)isReload
+{
+    if (isReload) {
+        [self.reloadPageBtn setImage:[UIImage imageNamed:@"reloadPage"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.reloadPageBtn setImage:[UIImage imageNamed:@"stopLoad"] forState:UIControlStateNormal];
+    }
+}
+
+- (void)searchBtnClicked
+{
+    if ([self.textField.text isEqualToString:@""]) {
+        //fnoztodo 提示输入关键词
+    }
+    else
+    {
+        [self search];
+    }
 }
 
 - (void)search
 {
+    [self showWebViewContainer:YES];
     NSString *searchKeyString = [self.textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.currentType.searchTypeModel, searchKeyString]];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
-    [self showWebViewContainer:YES];
 }
 
 - (void)showWebViewContainer:(BOOL)isShow
 {
     CGFloat oriY = isShow?SearchFieldHeight+StatusBarHeight:self.view.frame.size.height;
     if (isShow) {
+        if (!self.webView) {
+            self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.webViewContainer.frame.size.width, self.webViewContainer.frame.size.height-48)];
+            self.webView.delegate = self;
+            self.webView.backgroundColor = self.webViewContainer.backgroundColor;
+            [self.webViewContainer addSubview:self.webView];
+            
+            self.webViewTopMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.webView.frame.size.width, 0)];
+            self.webViewTopMaskView.backgroundColor = self.webViewContainer.backgroundColor;
+            [self.webView.scrollView addSubview:self.webViewTopMaskView];
+        }
+        
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             CGRect frame = self.webViewContainer.frame;
             frame.origin.y = oriY;
@@ -313,6 +383,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     }
     else
     {
+        [self.webView removeFromSuperview];
+        self.webView = nil;
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             CGRect frame = self.webViewContainer.frame;
             frame.origin.y = oriY;
