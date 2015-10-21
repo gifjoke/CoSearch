@@ -42,7 +42,7 @@ static Database *sharedSqlite = nil;
     }
     [db setShouldCacheStatements:YES];
     if (![self isTableOK:@"coSearch_searchType_list" inDB:db]) {
-        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` integer, `offsetY` float);"];
+        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` varchar(128), `offsetY` float);"];
         NSArray *array = [self originSearchType];
         [self insertOrUpdateSearchTypeList:array];
     }
@@ -117,15 +117,16 @@ static Database *sharedSqlite = nil;
 
 - (void)insertOrUpdateSearchType:(SearchType *)searchType
 {
-    [db setShouldCacheStatements:YES];
-    FMResultSet *rs = [db executeQuery:@"SELECT * FROM coSearch_searchType_list WHERE `searchTypeId` = ?", [NSNumber numberWithInteger:searchType.searchTypeId]];
+    [db setShouldCacheStatements:NO];
+//    FMResultSet *rs = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM coSearch_searchType_list WHERE `searchTypeId` = %@;",[NSNumber numberWithInteger:searchType.searchTypeId]]];
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM coSearch_searchType_list WHERE `searchTypeId` = ?;",[NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
     if ([rs next])
     {
-        [db executeUpdate:@"UPDATE coSearch_searchType_list SET `searchTypeName` = ?, `searchTypeImageName` = ?, `searchTypeModel` = ?, `offsetY` = ? WHERE `searchTypeId` = ?;", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSNumber numberWithFloat:searchType.offsetY], [NSNumber numberWithInteger:searchType.searchTypeId]];
+        [db executeUpdate:@"UPDATE coSearch_searchType_list SET `searchTypeName` = ?, `searchTypeImageName` = ?, `searchTypeModel` = ?, `offsetY` = ? WHERE `searchTypeId` = ?;", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSNumber numberWithFloat:searchType.offsetY], [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
     }
     else
     {
-        [db executeUpdate:@"INSERT INTO coSearch_searchType_list(`searchTypeName`, `searchTypeImageName`, `searchTypeModel`, `searchTypeName`, `offsetY`) VALUES (?, ?, ?, ?, ?);", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSNumber numberWithInteger:searchType.searchTypeId], [NSNumber numberWithFloat:searchType.offsetY]];
+        [db executeUpdate:@"INSERT INTO coSearch_searchType_list (`searchTypeName`, `searchTypeImageName`, `searchTypeModel`, `searchTypeId`, `offsetY`) VALUES (?, ?, ?, ?, ?);", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId], [NSNumber numberWithFloat:searchType.offsetY]];
     }
 }
 
@@ -147,7 +148,7 @@ static Database *sharedSqlite = nil;
         searchType.searchTypeName = [rs stringForColumn:@"searchTypeName"];
         searchType.searchTypeImageName = [rs stringForColumn:@"searchTypeImageName"];
         searchType.searchTypeModel = [rs stringForColumn:@"searchTypeModel"];
-        searchType.searchTypeId = [[rs stringForColumn:@"searchTypeName"] integerValue];
+        searchType.searchTypeId = [[rs stringForColumn:@"searchTypeId"] integerValue];
         searchType.offsetY = [[rs stringForColumn:@"offsetY"] floatValue];
         [list addObject:searchType];
     }
