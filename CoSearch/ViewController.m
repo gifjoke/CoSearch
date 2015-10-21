@@ -14,6 +14,7 @@
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
 #define StatusBarHeight 20.0f
+#define WebViewMaskViewColor [UIColor colorWithRed:237/255.0f green:237/255.0f blue:237/255.0f alpha:1.0f]
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
@@ -239,7 +240,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     [self.webViewContainer addSubview:self.webView];
     
     self.webViewTopMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.webView.frame.size.width, 0)];
-    self.webViewTopMaskView.backgroundColor = self.webViewContainer.backgroundColor;
+    self.webViewTopMaskView.backgroundColor = WebViewMaskViewColor;
     [self.webView.scrollView addSubview:self.webViewTopMaskView];
     
     CALayer *topBorder = [CALayer layer];
@@ -369,7 +370,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
             [self.webViewContainer addSubview:self.webView];
             
             self.webViewTopMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.webView.frame.size.width, 0)];
-            self.webViewTopMaskView.backgroundColor = self.webViewContainer.backgroundColor;
+            self.webViewTopMaskView.backgroundColor = WebViewMaskViewColor;
             [self.webView.scrollView addSubview:self.webViewTopMaskView];
         }
         

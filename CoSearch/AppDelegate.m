@@ -43,6 +43,7 @@ static AppDelegate *lofterApp = nil;
     searchType1.searchTypeModel = @"http://cn.bing.com/search?q=%@";
     searchType1.searchTypeImageName = @"bing";
     searchType1.searchTypeId = 1;
+    searchType1.offsetY = 133;
     [appDelegate.searchTypeArray addObject:searchType1];
     
     SearchType *searchType2 = [[SearchType alloc] init];
@@ -50,6 +51,7 @@ static AppDelegate *lofterApp = nil;
     searchType2.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
     searchType2.searchTypeImageName = @"google";
     searchType2.searchTypeId = 2;
+    searchType2.offsetY = 105;
     [appDelegate.searchTypeArray addObject:searchType2];
     
     SearchType *searchType3 = [[SearchType alloc] init];
@@ -57,6 +59,7 @@ static AppDelegate *lofterApp = nil;
     searchType3.searchTypeModel = @"http://www.haosou.com/s?q=%@";
     searchType3.searchTypeImageName = @"haosou";
     searchType3.searchTypeId = 3;
+    searchType3.offsetY = 97;
     [appDelegate.searchTypeArray addObject:searchType3];
     
     SearchType *searchType4 = [[SearchType alloc] init];
@@ -64,6 +67,7 @@ static AppDelegate *lofterApp = nil;
     searchType4.searchTypeModel = @"http://s.weibo.com/weibo/%@";
     searchType4.searchTypeImageName = @"weibo";
     searchType4.searchTypeId = 4;
+    searchType4.offsetY = 52;
     [appDelegate.searchTypeArray addObject:searchType4];
     
     SearchType *searchType5 = [[SearchType alloc] init];
@@ -71,6 +75,7 @@ static AppDelegate *lofterApp = nil;
     searchType5.searchTypeModel = @"http://wap.sogou.com/web/searchList.jsp?keyword=%@";
     searchType5.searchTypeImageName = @"sougou";
     searchType5.searchTypeId = 5;
+    searchType5.offsetY = 92;
     [appDelegate.searchTypeArray addObject:searchType5];
     
     return YES;
