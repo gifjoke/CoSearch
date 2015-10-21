@@ -11,6 +11,7 @@
 		1071E0621BD73E2E00C27839 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 1071E0611BD73E2E00C27839 /* Database.m */; settings = {ASSET_TAGS = (); }; };
 		1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */; };
 		1091DA911BBBEF9E004EDE9B /* SearchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091DA901BBBEF9E004EDE9B /* SearchType.m */; };
+		109918181BD7869B00D53815 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 109918171BD7869B00D53815 /* Common.m */; settings = {ASSET_TAGS = (); }; };
 		10A3C1211BA1D26D000C88C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1201BA1D26D000C88C4 /* main.m */; };
 		10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1231BA1D26D000C88C4 /* AppDelegate.m */; };
 		10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1261BA1D26D000C88C4 /* ViewController.m */; };
@@ -38,6 +39,8 @@
 		1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTypeCollectionCell.m; sourceTree = "<group>"; };
 		1091DA8F1BBBEF9E004EDE9B /* SearchType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchType.h; sourceTree = "<group>"; };
 		1091DA901BBBEF9E004EDE9B /* SearchType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchType.m; sourceTree = "<group>"; };
+		109918161BD7869B00D53815 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		109918171BD7869B00D53815 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		10A3C11B1BA1D26D000C88C4 /* CoSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		10A3C11F1BA1D26D000C88C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10A3C1201BA1D26D000C88C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 			children = (
 				1071E0601BD73E2E00C27839 /* Database.h */,
 				1071E0611BD73E2E00C27839 /* Database.m */,
+				109918161BD7869B00D53815 /* Common.h */,
+				109918171BD7869B00D53815 /* Common.m */,
 				10E5D8E71BCB64BB003D5FAE /* ConstDef.h */,
 				10A3C1221BA1D26D000C88C4 /* AppDelegate.h */,
 				10A3C1231BA1D26D000C88C4 /* AppDelegate.m */,
@@ -320,6 +325,7 @@
 				10A3C1211BA1D26D000C88C4 /* main.m in Sources */,
 				1071E0621BD73E2E00C27839 /* Database.m in Sources */,
 				1091DA911BBBEF9E004EDE9B /* SearchType.m in Sources */,
+				109918181BD7869B00D53815 /* Common.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

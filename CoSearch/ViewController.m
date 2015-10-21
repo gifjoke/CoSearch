@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "SearchTypeCollectionCell.h"
 #import "SearchType.h"
+#import "Common.h"
 
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
@@ -27,6 +28,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 @property (nonatomic, strong) SearchType *currentType;
 @property (nonatomic, strong) UIView *webViewTopMaskView;
 @property (nonatomic, strong) UIButton *reloadPageBtn;
+@property (nonatomic, strong) UIView *inputBgView;
 
 @end
 
@@ -36,9 +38,9 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:237/255.0f green:240/255.0f blue:244/255.0f alpha:1];
     
-    UIView *inputBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, StatusBarHeight+SearchFieldHeight)];
-    inputBgView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
-    [self.view addSubview:inputBgView];
+    self.inputBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, StatusBarHeight+SearchFieldHeight)];
+    self.inputBgView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
+    [self.view addSubview:self.inputBgView];
     
     UIView *inputAngBtnBgView = [[UIView alloc] initWithFrame:CGRectMake(10, StatusBarHeight+8, self.view.frame.size.width-20, SearchFieldHeight-16)];
     inputAngBtnBgView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
@@ -49,10 +51,9 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.searchTypeBtn.layer.cornerRadius = 5.0f;
     self.searchTypeBtn.clipsToBounds = YES;
     self.searchTypeBtn.imageEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3);
-    self.searchTypeBtn.imageView.layer.cornerRadius = 5.0f;
+    self.searchTypeBtn.imageView.layer.cornerRadius = 10.0f;
     self.searchTypeBtn.imageView.clipsToBounds = YES;
-    self.searchTypeBtn.imageView.layer.borderColor = [self.view.backgroundColor CGColor];
-    self.searchTypeBtn.imageView.layer.borderWidth = 2;
+    self.searchTypeBtn.imageView.layer.shadowColor = [UIColor clearColor].CGColor;
     [inputAngBtnBgView addSubview:self.searchTypeBtn];
     
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
@@ -64,7 +65,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
         [defaults setObject:@(defaultSearchTypeId) forKey:kSearchTypeCollectionCellID];
     }
     self.currentType = [appDelegate.searchTypeArray objectAtIndex:defaultSearchTypeId];
-    [self.searchTypeBtn setImage:[UIImage imageNamed:[self getImageNameBySearchTypeId:defaultSearchTypeId]] forState:UIControlStateNormal];
+    [self.searchTypeBtn setImage:[UIImage imageNamed:self.currentType.searchTypeImageName] forState:UIControlStateNormal];
+    [self adjestSearchBgColor];
     
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.height, 0, inputAngBtnBgView.frame.size.width-2*inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
     self.textField.backgroundColor = [UIColor whiteColor];
@@ -177,10 +179,10 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
     self.currentType = (SearchType *)[searchTypeArray objectAtIndex:indexPath.row];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@(indexPath.row) forKey:kSearchTypeCollectionCellID];
     if ([self.textField.text isEqualToString:@""]) //切换默认搜索引擎
     {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:@(indexPath.row) forKey:kSearchTypeCollectionCellID];
         [self.searchTypeBtn setImage:[UIImage imageNamed:self.currentType.searchTypeImageName] forState:UIControlStateNormal];
     }
     else //应用搜索引擎
@@ -188,6 +190,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
         [self.searchTypeBtn setImage:[UIImage imageNamed:self.currentType.searchTypeImageName] forState:UIControlStateNormal];
         [self search];
     }
+    [self adjestSearchBgColor];
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -219,17 +222,6 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 }
 
 #pragma mark Common
-- (NSString *)getImageNameBySearchTypeId:(NSInteger)searchTypeId
-{
-    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    for (SearchType *searchType in appDelegate.searchTypeArray) {
-        if (searchType.searchTypeId == searchTypeId) {
-            return searchType.searchTypeImageName;
-        }
-    }
-    return nil;
-}
-
 - (void)decorateWebViewContainer
 {
     self.webViewContainer.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
@@ -394,6 +386,32 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
             ;
         }];
     }
+}
+
+- (void)adjestSearchBgColor
+{
+    UIColor *logoAverageColor = [Common mostColor:[UIImage imageNamed:self.currentType.searchTypeImageName]];
+    
+    const CGFloat *components = CGColorGetComponents(logoAverageColor.CGColor);
+    NSLog(@"Red: %f", components[0]);
+    NSLog(@"Green: %f", components[1]);
+    NSLog(@"Blue: %f", components[2]);
+    UIColor *color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0.6];
+    if ([Common isNearWhite:color])
+    {
+        color = [UIColor colorWithWhite:0.85 alpha:1];
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.inputBgView.backgroundColor = color;
+        if ([Common isDarkColor:color]) {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        }
+        else
+        {
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        }
+    }];
+    
 }
 
 @end
