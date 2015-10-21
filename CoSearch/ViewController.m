@@ -72,6 +72,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.textField.backgroundColor = [UIColor whiteColor];
     self.textField.placeholder = @"输入关键字，点击搜索引擎";
     self.textField.font = [UIFont systemFontOfSize:15.0f];
+    self.textField.delegate = self;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, self.textField.frame.size.height)];
     self.textField.returnKeyType = UIReturnKeySearch;
@@ -201,7 +202,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 #pragma mark UITextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField endEditing:YES];
+    [self search];
     return YES;
 }
 
@@ -212,7 +213,10 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     [self changeReloadBtnStatusIsReload:NO];
     self.webView.frame = CGRectMake(0, -self.currentType.offsetY, self.webViewContainer.frame.size.width, self.webViewContainer.frame.size.height-48+self.currentType.offsetY);
     self.webViewTopMaskView.frame = CGRectMake(0, 0, self.webView.frame.size.width, self.currentType.offsetY);
-    [self.webView.scrollView addSubview:self.webViewTopMaskView];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+       [self.webView.scrollView addSubview:self.webViewTopMaskView];
+    });
+    
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
@@ -344,6 +348,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 - (void)search
 {
+    [self.textField endEditing:YES];
     [self showWebViewContainer:YES];
     NSString *searchKeyString = [self.textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.currentType.searchTypeModel, searchKeyString]];
