@@ -68,7 +68,15 @@ static AppDelegate *lofterApp = nil;
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *adjustedGoogleUrlStr = operation.responseString;
-        //fnoztodo 把Google动态地址存到数据库中；
+        SearchType *searchType = [[SearchType alloc] init];
+        searchType.searchTypeName = @"谷歌";
+        searchType.searchTypeModel = adjustedGoogleUrlStr;
+        searchType.searchTypeImageName = @"google";
+        searchType.searchTypeId = 2;
+        searchType.offsetY = 105;
+        Database *db = [Database sharedFMDBSqlite];
+        [db insertOrUpdateSearchType:searchType];
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         ;
     }];
