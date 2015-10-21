@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "SearchType.h"
+#import "AFNetworking.h"
+#import "Database.h"
 
 @interface AppDelegate ()
 
@@ -25,58 +27,12 @@ static AppDelegate *lofterApp = nil;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    appDelegate.searchTypeArray = [NSMutableArray array];
     
+    [self getAdjustedGoogleUrl];
     
-    SearchType *searchType0 = [[SearchType alloc] init];
-    searchType0.searchTypeName = @"百度";
-    searchType0.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
-    searchType0.searchTypeImageName = @"baidu";
-    searchType0.searchTypeId = 0;
-    searchType0.offsetY = 92;
-    [appDelegate.searchTypeArray addObject:searchType0];
-    
-    SearchType *searchType1 = [[SearchType alloc] init];
-    searchType1.searchTypeName = @"必应";
-    searchType1.searchTypeModel = @"http://cn.bing.com/search?q=%@";
-    searchType1.searchTypeImageName = @"bing";
-    searchType1.searchTypeId = 1;
-    searchType1.offsetY = 133;
-    [appDelegate.searchTypeArray addObject:searchType1];
-    
-    SearchType *searchType2 = [[SearchType alloc] init];
-    searchType2.searchTypeName = @"谷歌";
-    searchType2.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
-    searchType2.searchTypeImageName = @"google";
-    searchType2.searchTypeId = 2;
-    searchType2.offsetY = 105;
-    [appDelegate.searchTypeArray addObject:searchType2];
-    
-    SearchType *searchType3 = [[SearchType alloc] init];
-    searchType3.searchTypeName = @"好搜";
-    searchType3.searchTypeModel = @"http://www.haosou.com/s?q=%@";
-    searchType3.searchTypeImageName = @"haosou";
-    searchType3.searchTypeId = 3;
-    searchType3.offsetY = 97;
-    [appDelegate.searchTypeArray addObject:searchType3];
-    
-    SearchType *searchType4 = [[SearchType alloc] init];
-    searchType4.searchTypeName = @"微博";
-    searchType4.searchTypeModel = @"http://s.weibo.com/weibo/%@";
-    searchType4.searchTypeImageName = @"weibo";
-    searchType4.searchTypeId = 4;
-    searchType4.offsetY = 52;
-    [appDelegate.searchTypeArray addObject:searchType4];
-    
-    SearchType *searchType5 = [[SearchType alloc] init];
-    searchType5.searchTypeName = @"搜狗";
-    searchType5.searchTypeModel = @"http://wap.sogou.com/web/searchList.jsp?keyword=%@";
-    searchType5.searchTypeImageName = @"sougou";
-    searchType5.searchTypeId = 5;
-    searchType5.offsetY = 92;
-    [appDelegate.searchTypeArray addObject:searchType5];
+    Database *db = [Database sharedFMDBSqlite];
+    appDelegate.searchTypeArray = [[db getSearchTypeInDB] copy];
     
     return YES;
 }
@@ -101,6 +57,23 @@ static AppDelegate *lofterApp = nil;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)getAdjustedGoogleUrl
+{
+    NSString *str=[NSString stringWithFormat:@"http://7xl2dx.com1.z0.glb.clouddn.com/coSearch_adjustedGoogleUrl.txt"];
+    NSURL *url = [NSURL URLWithString:[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *adjustedGoogleUrlStr = operation.responseString;
+        //fnoztodo 把Google动态地址存到数据库中；
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        ;
+    }];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:operation];
 }
 
 @end

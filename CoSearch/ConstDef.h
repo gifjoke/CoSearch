@@ -11,5 +11,6 @@
 
 //UserDefaultKey
 #define kDefaultSearchTypeId @"kDefaultSearchTypeId"
+#define kDefaultAdjustedGoogleUrl @"kDefaultAdjustedGoogleUrl"
 
 #endif
