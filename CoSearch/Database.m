@@ -143,10 +143,10 @@ static Database *sharedSqlite = nil;
     
     searchType = [[SearchType alloc] init];
     searchType.searchTypeName = @"图片";
-    searchType.searchTypeModel = @"http://image.baidu.com/search/index?tn=baiduimage&word=%@";
+    searchType.searchTypeModel = @"http://image.baidu.com/search/wiseala?tn=wiseala&fmpage=search&word=%@";
     searchType.searchTypeImageName = @"image";
     searchType.searchTypeId = 11;
-    searchType.offsetY = 75;
+    searchType.offsetY = 90;
     [array addObject:searchType];
     
     return array;
