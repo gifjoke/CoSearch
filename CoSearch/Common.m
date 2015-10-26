@@ -58,13 +58,10 @@
     }
     const CGFloat *componentColors = CGColorGetComponents(newColor.CGColor);
     CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
-    NSLog(@"Color Dark is %f.",colorBrightness);
     if (colorBrightness < 0.75){
-        NSLog(@"Color is dark");
         return YES;
     }
     else{
-        NSLog(@"Color is light");
         return NO;
     }
 }

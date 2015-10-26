@@ -67,7 +67,9 @@ static AppDelegate *lofterApp = nil;
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc]initWithRequest:request];
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *adjustedGoogleUrlStr = operation.responseString;
+        NSMutableString *adjustedGoogleUrlStr = [operation.responseString mutableCopy];
+        NSRange searchRange = NSMakeRange(0, [adjustedGoogleUrlStr length]);
+        [adjustedGoogleUrlStr replaceOccurrencesOfString:@"fnoz" withString:@"%@" options:NSCaseInsensitiveSearch range:searchRange];
         SearchType *searchType = [[SearchType alloc] init];
         searchType.searchTypeName = @"谷歌";
         searchType.searchTypeModel = adjustedGoogleUrlStr;

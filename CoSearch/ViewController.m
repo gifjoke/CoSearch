@@ -15,7 +15,7 @@
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
 #define StatusBarHeight 20.0f
-#define WebViewMaskViewColor [UIColor colorWithRed:237/255.0f green:237/255.0f blue:237/255.0f alpha:1.0f]
+#define WebViewMaskViewColor [UIColor colorWithWhite:0.98 alpha:1]
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
@@ -29,6 +29,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 @property (nonatomic, strong) UIView *webViewTopMaskView;
 @property (nonatomic, strong) UIButton *reloadPageBtn;
 @property (nonatomic, strong) UIView *inputBgView;
+@property (nonatomic, strong) NSString *goingUrlStr;
+@property (nonatomic, assign) BOOL maskNeedAnimation;
 
 @end
 
@@ -180,6 +182,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     
     NSMutableArray *searchTypeArray = appDelegate.searchTypeArray;
     self.currentType = (SearchType *)[searchTypeArray objectAtIndex:indexPath.row];
+    [self adjestSearchBgColor];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@(indexPath.row) forKey:kSearchTypeCollectionCellID];
     if ([self.textField.text isEqualToString:@""]) //切换默认搜索引擎
@@ -207,21 +210,58 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 }
 
 #pragma mark UIWebViewDelegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //针对bing的“跳转但不加载页面”做特殊处理
+    if ([request.URL.absoluteString rangeOfString:@"cn.bing.com/rms"].location != NSNotFound || [request.URL.absoluteString rangeOfString:@"pos.baidu.com"].location != NSNotFound) {
+        return NO;
+    }
+    
+    NSURL *url = [NSURL URLWithString:[self.currentType.searchTypeModel substringToIndex:self.currentType.searchTypeModel.length-2]];
+    if ([self.webView.request.URL.host isEqual:url.host]||[request.URL.host isEqual:url.host]) {
+        [self.webView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML='';"];
+    }
+    
+    self.goingUrlStr = request.URL.absoluteString;
+    return YES;
+}
+
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
-    NSLog(@"bbb");
-    [self changeReloadBtnStatusIsReload:NO];
-    self.webView.frame = CGRectMake(0, -self.currentType.offsetY, self.webViewContainer.frame.size.width, self.webViewContainer.frame.size.height-48+self.currentType.offsetY);
-    self.webViewTopMaskView.frame = CGRectMake(0, 0, self.webView.frame.size.width, self.currentType.offsetY);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-       [self.webView.scrollView addSubview:self.webViewTopMaskView];
-    });
+    CGFloat offset = 0;
     
+    
+    NSURL *url = [NSURL URLWithString:[self.currentType.searchTypeModel substringToIndex:self.currentType.searchTypeModel.length-2]];
+    NSString *host = [NSURL URLWithString:self.goingUrlStr].host;
+    if ([host isEqual:url.host]) {
+        offset = self.currentType.offsetY;
+    }
+    
+    
+//    if ([self.goingUrlStr hasPrefix:[self.currentType.searchTypeModel substringToIndex:self.currentType.searchTypeModel.length-2]]) {
+//        if ([self.goingUrlStr rangeOfString:@".js"].location == NSNotFound)
+//        {
+//            offset = self.currentType.offsetY;
+//        }
+//    }
+    [self changeReloadBtnStatusIsReload:NO];
+    self.webView.frame = CGRectMake(0, -offset, self.webViewContainer.frame.size.width, self.webViewContainer.frame.size.height-48+offset);
+    
+    self.webViewTopMaskView.frame = CGRectMake(0, 0, self.webView.frame.size.width, offset);
+    if (self.maskNeedAnimation) {
+        self.maskNeedAnimation = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            [self.webView.scrollView addSubview:self.webViewTopMaskView];
+            });
+    }
+    else
+    {
+        [self.webView.scrollView addSubview:self.webViewTopMaskView];
+    }
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSLog(@"ccc");
     [self changeReloadBtnStatusIsReload:YES];
 }
 
@@ -352,7 +392,10 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     [self showWebViewContainer:YES];
     NSString *searchKeyString = [self.textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:self.currentType.searchTypeModel, searchKeyString]];
-    NSURLRequest *request =[NSURLRequest requestWithURL:url];
+//    NSURLRequest *request =[NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue: @"iPhone" forHTTPHeaderField: @"User-Agent"];
+    
     [self.webView loadRequest:request];
 }
 
@@ -369,6 +412,8 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
             self.webViewTopMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.webView.frame.size.width, 0)];
             self.webViewTopMaskView.backgroundColor = WebViewMaskViewColor;
             [self.webView.scrollView addSubview:self.webViewTopMaskView];
+            
+            self.maskNeedAnimation = YES;
         }
         
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
@@ -398,9 +443,6 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     UIColor *logoAverageColor = [Common mostColor:[UIImage imageNamed:self.currentType.searchTypeImageName]];
     
     const CGFloat *components = CGColorGetComponents(logoAverageColor.CGColor);
-    NSLog(@"Red: %f", components[0]);
-    NSLog(@"Green: %f", components[1]);
-    NSLog(@"Blue: %f", components[2]);
     UIColor *color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0.6];
     if ([Common isNearWhite:color])
     {
