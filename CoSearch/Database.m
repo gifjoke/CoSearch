@@ -52,12 +52,13 @@ static Database *sharedSqlite = nil;
 - (NSArray *)originSearchType
 {
     NSMutableArray *array = [NSMutableArray array];
+    NSInteger typeId = 0;
     
     SearchType *searchType = [[SearchType alloc] init];
     searchType.searchTypeName = @"百度";
     searchType.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
     searchType.searchTypeImageName = @"baidu";
-    searchType.searchTypeId = 0;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 92;
     [array addObject:searchType];
     
@@ -65,7 +66,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"必应";
     searchType.searchTypeModel = @"http://cn.bing.com/search?q=%@";
     searchType.searchTypeImageName = @"bing";
-    searchType.searchTypeId = 1;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 135;
     [array addObject:searchType];
     
@@ -73,7 +74,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"谷歌";
     searchType.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
     searchType.searchTypeImageName = @"google";
-    searchType.searchTypeId = 2;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 105;
     [array addObject:searchType];
     
@@ -81,7 +82,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"Yahoo";
     searchType.searchTypeModel = @"https://search.yahoo.com/search?p=%@";
     searchType.searchTypeImageName = @"yahoo";
-    searchType.searchTypeId = 3;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 48;
     [array addObject:searchType];
     
@@ -89,7 +90,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"微博";
     searchType.searchTypeModel = @"http://s.weibo.com/weibo/%@";
     searchType.searchTypeImageName = @"weibo";
-    searchType.searchTypeId = 4;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 52;
     [array addObject:searchType];
     
@@ -97,7 +98,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"文章";
     searchType.searchTypeModel = @"http://weixin.sogou.com/weixinwap?type=2&query=%@";
     searchType.searchTypeImageName = @"wechatArticle";
-    searchType.searchTypeId = 5;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 100;
     [array addObject:searchType];
     
@@ -105,7 +106,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"知乎";
     searchType.searchTypeModel = @"http://www.zhihu.com/search?type=question&q=%@";
     searchType.searchTypeImageName = @"zhihu";
-    searchType.searchTypeId = 6;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 65;
     [array addObject:searchType];
     
@@ -113,7 +114,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"词典";
     searchType.searchTypeModel = @"http://wap.iciba.com/cword/%@";
     searchType.searchTypeImageName = @"dictionary";
-    searchType.searchTypeId = 7;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 115;
     [array addObject:searchType];
     
@@ -121,7 +122,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"淘宝";
     searchType.searchTypeModel = @"http://s.m.taobao.com/h5?q=%@";
     searchType.searchTypeImageName = @"taobao";
-    searchType.searchTypeId = 8;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 85;
     [array addObject:searchType];
     
@@ -129,7 +130,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"丁香";
     searchType.searchTypeModel = @"http://m.dxy.com/search/index?keyword=%@";
     searchType.searchTypeImageName = @"dingxiang";
-    searchType.searchTypeId = 9;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 52;
     [array addObject:searchType];
     
@@ -137,16 +138,32 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeName = @"小说";
     searchType.searchTypeModel = @"http://book.easou.com/ta/search.m?q=%@";
     searchType.searchTypeImageName = @"novel";
-    searchType.searchTypeId = 10;
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 75;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
     searchType.searchTypeName = @"图片";
     searchType.searchTypeModel = @"http://image.baidu.com/search/wiseala?tn=wiseala&fmpage=search&word=%@";
-    searchType.searchTypeImageName = @"image";
-    searchType.searchTypeId = 11;
+    searchType.searchTypeImageName = @"baiduImage";
+    searchType.searchTypeId = typeId++;
     searchType.offsetY = 90;
+    [array addObject:searchType];
+    
+    searchType = [[SearchType alloc] init];
+    searchType.searchTypeName = @"音乐";
+    searchType.searchTypeModel = @"http://m.xiami.com/#!/search/result/?key=%@";
+    searchType.searchTypeImageName = @"xiamiMusic";
+    searchType.searchTypeId = typeId++;
+    searchType.offsetY = 100;
+    [array addObject:searchType];
+    
+    searchType = [[SearchType alloc] init];
+    searchType.searchTypeName = @"视频";
+    searchType.searchTypeModel = @"http://m.iqiyi.com/search.html?source=input&key=%@";
+    searchType.searchTypeImageName = @"aiqiyiVideo";
+    searchType.searchTypeId = typeId++;
+    searchType.offsetY = 100;
     [array addObject:searchType];
     
     return array;

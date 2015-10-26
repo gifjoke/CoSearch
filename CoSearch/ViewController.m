@@ -174,9 +174,9 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    if (indexPath.row >= appDelegate.searchTypeArray.count) //添加搜索引擎
+    if (indexPath.row >= appDelegate.searchTypeArray.count)
     {
-        //fnoztodo
+        //fnoztodo 添加搜索引擎
         return;
     }
     
@@ -205,7 +205,14 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 #pragma mark UITextFieldDelegate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self search];
+    if (![self.textField.text isEqualToString:@""])
+    {
+        [self search];
+    }
+    else
+    {
+        [self.textField endEditing:YES];
+    }
     return YES;
 }
 
@@ -377,12 +384,13 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 
 - (void)searchBtnClicked
 {
-    if ([self.textField.text isEqualToString:@""]) {
-        //fnoztodo 提示输入关键词
+    if (![self.textField.text isEqualToString:@""])
+    {
+        [self search];
     }
     else
     {
-        [self search];
+        [self.textField endEditing:YES];
     }
 }
 
