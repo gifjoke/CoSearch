@@ -115,7 +115,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    return appDelegate.searchTypeArray.count+1;
+    return appDelegate.searchTypeArray.count; //fnoztodo 暂时屏蔽添加搜索引擎
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
