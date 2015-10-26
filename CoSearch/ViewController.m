@@ -220,7 +220,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     //针对bing的“跳转但不加载页面”做特殊处理
-    if ([request.URL.absoluteString rangeOfString:@"cn.bing.com/rms"].location != NSNotFound || [request.URL.absoluteString rangeOfString:@"pos.baidu.com"].location != NSNotFound) {
+    if ([request.URL.absoluteString rangeOfString:@"cn.bing.com/rms"].location != NSNotFound || [request.URL.absoluteString rangeOfString:@"pos.baidu.com"].location != NSNotFound || [request.URL.absoluteString rangeOfString:@"about:blank"].location != NSNotFound) {
         return NO;
     }
     

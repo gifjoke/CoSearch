@@ -155,7 +155,7 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://m.xiami.com/#!/search/result/?key=%@";
     searchType.searchTypeImageName = @"xiamiMusic";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 100;
+    searchType.offsetY = 73;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -163,7 +163,15 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://m.iqiyi.com/search.html?source=input&key=%@";
     searchType.searchTypeImageName = @"aiqiyiVideo";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 100;
+    searchType.offsetY = 98;
+    [array addObject:searchType];
+    
+    searchType = [[SearchType alloc] init];
+    searchType.searchTypeName = @"推特";
+    searchType.searchTypeModel = @"https://twitter.com/search?q=%@";
+    searchType.searchTypeImageName = @"twitter";
+    searchType.searchTypeId = typeId++;
+    searchType.offsetY = 160;
     [array addObject:searchType];
     
     return array;
