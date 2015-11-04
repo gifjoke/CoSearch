@@ -14,6 +14,5 @@
 @property (nonatomic, strong) NSString *searchTypeImageName;
 @property (nonatomic, strong) NSString *searchTypeModel;
 @property (nonatomic, assign) NSInteger searchTypeId;
-@property (nonatomic, assign) CGFloat offsetY;
 
 @end

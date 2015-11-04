@@ -27,12 +27,10 @@ static AppDelegate *lofterApp = nil;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
-    
+    //同步Google地址
     [self getAdjustedGoogleUrl];
-    
+    //初始化DB
     Database *db = [Database sharedFMDBSqlite];
-    appDelegate.searchTypeArray = [[db getSearchTypeInDB] copy];
     
     return YES;
 }
@@ -75,7 +73,6 @@ static AppDelegate *lofterApp = nil;
         searchType.searchTypeModel = adjustedGoogleUrlStr;
         searchType.searchTypeImageName = @"google";
         searchType.searchTypeId = 2;
-        searchType.offsetY = 105;
         Database *db = [Database sharedFMDBSqlite];
         [db insertOrUpdateSearchType:searchType];
         

@@ -8,7 +8,6 @@
 
 #import "Database.h"
 #import "SearchType.h"
-#import "SearchHistory.h"
 
 @interface Database()
 {
@@ -43,13 +42,10 @@ static Database *sharedSqlite = nil;
     }
     [db setShouldCacheStatements:YES];
     if (![self isTableOK:@"coSearch_searchType_list" inDB:db]) {
-        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` varchar(128), `offsetY` float), `reserve0` varchar(128), `reserve1` varchar(128), `reserve2` varchar(128);"];
+        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` varchar(128));"];
         NSArray *array = [self originSearchType];
         [self insertOrUpdateSearchTypeList:array];
     }
-    
-    [db executeUpdate:@"CREATE TABLE coSearch_searchHistory(`searchKey` varchar(128), `searchTime` varchar(128), `reserve0` varchar(128), `reserve1` varchar(128), `reserve2` varchar(128));"];
-    
     return self;
 }
 
@@ -63,7 +59,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"https://www.baidu.com/s?wd=%@";
     searchType.searchTypeImageName = @"baidu";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 92;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -71,7 +66,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://cn.bing.com/search?q=%@";
     searchType.searchTypeImageName = @"bing";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 135;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -79,7 +73,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://google.sidney-aldebaran.me/search?q=%@";
     searchType.searchTypeImageName = @"google";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 105;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -87,7 +80,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"https://search.yahoo.com/search?p=%@";
     searchType.searchTypeImageName = @"yahoo";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 48;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -95,7 +87,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://s.weibo.com/weibo/%@";
     searchType.searchTypeImageName = @"weibo";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 52;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -103,7 +94,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://weixin.sogou.com/weixinwap?type=2&query=%@";
     searchType.searchTypeImageName = @"wechatArticle";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 100;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -111,7 +101,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://www.zhihu.com/search?type=question&q=%@";
     searchType.searchTypeImageName = @"zhihu";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 65;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -119,7 +108,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://wap.iciba.com/cword/%@";
     searchType.searchTypeImageName = @"dictionary";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 115;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -127,7 +115,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://s.m.taobao.com/h5?q=%@";
     searchType.searchTypeImageName = @"taobao";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 85;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -135,7 +122,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://m.dxy.com/search/index?keyword=%@";
     searchType.searchTypeImageName = @"dingxiang";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 52;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -143,7 +129,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://book.easou.com/ta/search.m?q=%@";
     searchType.searchTypeImageName = @"novel";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 75;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -151,7 +136,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://image.baidu.com/search/wiseala?tn=wiseala&fmpage=search&word=%@";
     searchType.searchTypeImageName = @"baiduImage";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 90;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -159,7 +143,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://m.xiami.com/#!/search/result/?key=%@";
     searchType.searchTypeImageName = @"xiamiMusic";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 73;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -167,7 +150,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"http://m.iqiyi.com/search.html?source=input&key=%@";
     searchType.searchTypeImageName = @"aiqiyiVideo";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 98;
     [array addObject:searchType];
     
     searchType = [[SearchType alloc] init];
@@ -175,7 +157,6 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeModel = @"https://twitter.com/search?q=%@";
     searchType.searchTypeImageName = @"twitter";
     searchType.searchTypeId = typeId++;
-    searchType.offsetY = 160;
     [array addObject:searchType];
     
     return array;
@@ -199,11 +180,11 @@ static Database *sharedSqlite = nil;
     FMResultSet *rs = [db executeQuery:@"SELECT * FROM coSearch_searchType_list WHERE `searchTypeId` = ?;",[NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
     if ([rs next])
     {
-        [db executeUpdate:@"UPDATE coSearch_searchType_list SET `searchTypeName` = ?, `searchTypeImageName` = ?, `searchTypeModel` = ?, `offsetY` = ? WHERE `searchTypeId` = ?;", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSNumber numberWithFloat:searchType.offsetY], [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
+        [db executeUpdate:@"UPDATE coSearch_searchType_list SET `searchTypeName` = ?, `searchTypeImageName` = ?, `searchTypeModel` = ? WHERE `searchTypeId` = ?;", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
     }
     else
     {
-        [db executeUpdate:@"INSERT INTO coSearch_searchType_list (`searchTypeName`, `searchTypeImageName`, `searchTypeModel`, `searchTypeId`, `offsetY`) VALUES (?, ?, ?, ?, ?);", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId], [NSNumber numberWithFloat:searchType.offsetY]];
+        [db executeUpdate:@"INSERT INTO coSearch_searchType_list (`searchTypeName`, `searchTypeImageName`, `searchTypeModel`, `searchTypeId`) VALUES (?, ?, ?, ?);", searchType.searchTypeName, searchType.searchTypeImageName, searchType.searchTypeModel, [NSString stringWithFormat:@"%ld",(long)searchType.searchTypeId]];
     }
 }
 
@@ -226,7 +207,6 @@ static Database *sharedSqlite = nil;
         searchType.searchTypeImageName = [rs stringForColumn:@"searchTypeImageName"];
         searchType.searchTypeModel = [rs stringForColumn:@"searchTypeModel"];
         searchType.searchTypeId = [[rs stringForColumn:@"searchTypeId"] integerValue];
-        searchType.offsetY = [[rs stringForColumn:@"offsetY"] floatValue];
         [list addObject:searchType];
     }
     return list;
@@ -248,26 +228,6 @@ static Database *sharedSqlite = nil;
         }
     }
     return NO;
-}
-
-- (void)insertHistory:(SearchHistory *)historyItem
-{
-    [db setShouldCacheStatements:NO];
-    FMResultSet *rs = [db executeQuery:@"SELECT * FROM coSearch_searchHistory WHERE `searchKey` = ?;",historyItem.searchKey];
-    if ([rs next])
-    {
-        [db executeUpdate:@"DELETE FROM coSearch_searchHistory WHERE `searchKey` = ?", historyItem.searchKey];
-        [db executeUpdate:@"INSERT INTO coSearch_searchHistory (`searchKey`) VALUES (?);", historyItem.searchKey];
-    }
-    else
-    {
-        [db executeUpdate:@"INSERT INTO coSearch_searchHistory (`searchKey`) VALUES (?);", historyItem.searchKey];
-    }
-}
-
-- (void)deleteAllSearchHistory
-{
-    [db executeUpdate:@"DELETE FROM coSearch_searchHistory"];
 }
 
 @end

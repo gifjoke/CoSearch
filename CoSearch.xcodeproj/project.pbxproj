@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0B6F249CE0C29B1D5C81219F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3035468F30EA45E5F18ADE56 /* libPods.a */; };
-		1071E0621BD73E2E00C27839 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 1071E0611BD73E2E00C27839 /* Database.m */; };
-		1071E0EB1BDE0FF4009E6E11 /* SearchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1071E0EA1BDE0FF4009E6E11 /* SearchHistory.m */; };
-		1071E0F01BDE12DD009E6E11 /* UITextField+History.m in Sources */ = {isa = PBXBuildFile; fileRef = 1071E0EF1BDE12DD009E6E11 /* UITextField+History.m */; };
+		1071E0621BD73E2E00C27839 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 1071E0611BD73E2E00C27839 /* Database.m */; settings = {ASSET_TAGS = (); }; };
 		1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */; };
 		1091DA911BBBEF9E004EDE9B /* SearchType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1091DA901BBBEF9E004EDE9B /* SearchType.m */; };
-		109918181BD7869B00D53815 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 109918171BD7869B00D53815 /* Common.m */; };
+		109918181BD7869B00D53815 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 109918171BD7869B00D53815 /* Common.m */; settings = {ASSET_TAGS = (); }; };
 		10A3C1211BA1D26D000C88C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1201BA1D26D000C88C4 /* main.m */; };
 		10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1231BA1D26D000C88C4 /* AppDelegate.m */; };
 		10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A3C1261BA1D26D000C88C4 /* ViewController.m */; };
@@ -37,10 +35,6 @@
 		0D6C3E9A593997816ECF7494 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		1071E0601BD73E2E00C27839 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		1071E0611BD73E2E00C27839 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
-		1071E0E91BDE0FF4009E6E11 /* SearchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchHistory.h; sourceTree = "<group>"; };
-		1071E0EA1BDE0FF4009E6E11 /* SearchHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchHistory.m; sourceTree = "<group>"; };
-		1071E0EE1BDE12DD009E6E11 /* UITextField+History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+History.h"; sourceTree = "<group>"; };
-		1071E0EF1BDE12DD009E6E11 /* UITextField+History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+History.m"; sourceTree = "<group>"; };
 		1091DA8C1BBBD418004EDE9B /* SearchTypeCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTypeCollectionCell.h; sourceTree = "<group>"; };
 		1091DA8D1BBBD418004EDE9B /* SearchTypeCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTypeCollectionCell.m; sourceTree = "<group>"; };
 		1091DA8F1BBBEF9E004EDE9B /* SearchType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchType.h; sourceTree = "<group>"; };
@@ -85,23 +79,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1071E0EC1BDE12DD009E6E11 /* OpenSource */ = {
-			isa = PBXGroup;
-			children = (
-				1071E0ED1BDE12DD009E6E11 /* UITextField+History */,
-			);
-			path = OpenSource;
-			sourceTree = "<group>";
-		};
-		1071E0ED1BDE12DD009E6E11 /* UITextField+History */ = {
-			isa = PBXGroup;
-			children = (
-				1071E0EE1BDE12DD009E6E11 /* UITextField+History.h */,
-				1071E0EF1BDE12DD009E6E11 /* UITextField+History.m */,
-			);
-			path = "UITextField+History";
-			sourceTree = "<group>";
-		};
 		10A3C1121BA1D26D000C88C4 = {
 			isa = PBXGroup;
 			children = (
@@ -125,7 +102,6 @@
 		10A3C11D1BA1D26D000C88C4 /* CoSearch */ = {
 			isa = PBXGroup;
 			children = (
-				1071E0EC1BDE12DD009E6E11 /* OpenSource */,
 				1071E0601BD73E2E00C27839 /* Database.h */,
 				1071E0611BD73E2E00C27839 /* Database.m */,
 				109918161BD7869B00D53815 /* Common.h */,
@@ -133,8 +109,6 @@
 				10E5D8E71BCB64BB003D5FAE /* ConstDef.h */,
 				10A3C1221BA1D26D000C88C4 /* AppDelegate.h */,
 				10A3C1231BA1D26D000C88C4 /* AppDelegate.m */,
-				1071E0E91BDE0FF4009E6E11 /* SearchHistory.h */,
-				1071E0EA1BDE0FF4009E6E11 /* SearchHistory.m */,
 				1091DA8F1BBBEF9E004EDE9B /* SearchType.h */,
 				1091DA901BBBEF9E004EDE9B /* SearchType.m */,
 				10A3C1251BA1D26D000C88C4 /* ViewController.h */,
@@ -347,12 +321,10 @@
 			files = (
 				10A3C1271BA1D26D000C88C4 /* ViewController.m in Sources */,
 				1091DA8E1BBBD418004EDE9B /* SearchTypeCollectionCell.m in Sources */,
-				1071E0EB1BDE0FF4009E6E11 /* SearchHistory.m in Sources */,
 				10A3C1241BA1D26D000C88C4 /* AppDelegate.m in Sources */,
 				10A3C1211BA1D26D000C88C4 /* main.m in Sources */,
 				1071E0621BD73E2E00C27839 /* Database.m in Sources */,
 				1091DA911BBBEF9E004EDE9B /* SearchType.m in Sources */,
-				1071E0F01BDE12DD009E6E11 /* UITextField+History.m in Sources */,
 				109918181BD7869B00D53815 /* Common.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
