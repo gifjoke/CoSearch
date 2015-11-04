@@ -11,6 +11,7 @@
 #import "SearchTypeCollectionCell.h"
 #import "SearchType.h"
 #import "Common.h"
+#import "UITextField+History.h"
 
 static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCellID";
 #define SearchFieldHeight 52.0f
@@ -79,6 +80,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, self.textField.frame.size.height)];
     self.textField.returnKeyType = UIReturnKeySearch;
     [inputAngBtnBgView addSubview:self.textField];
+    [self.textField showHistory];
         
     self.searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(inputAngBtnBgView.frame.size.width-40, 0, inputAngBtnBgView.frame.size.height, inputAngBtnBgView.frame.size.height)];
     self.searchBtn.layer.cornerRadius = 5.0f;

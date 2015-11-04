@@ -8,6 +8,7 @@
 
 #import "Database.h"
 #import "SearchType.h"
+#import "SearchHistory.h"
 
 @interface Database()
 {
@@ -42,10 +43,13 @@ static Database *sharedSqlite = nil;
     }
     [db setShouldCacheStatements:YES];
     if (![self isTableOK:@"coSearch_searchType_list" inDB:db]) {
-        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` varchar(128), `offsetY` float);"];
+        [db executeUpdate:@"CREATE TABLE coSearch_searchType_list(`searchTypeName` varchar(128), `searchTypeImageName` varchar(128), `searchTypeModel` varchar(128), `searchTypeId` varchar(128), `offsetY` float), `reserve0` varchar(128), `reserve1` varchar(128), `reserve2` varchar(128);"];
         NSArray *array = [self originSearchType];
         [self insertOrUpdateSearchTypeList:array];
     }
+    
+    [db executeUpdate:@"CREATE TABLE coSearch_searchHistory(`searchKey` varchar(128), `searchTime` varchar(128), `reserve0` varchar(128), `reserve1` varchar(128), `reserve2` varchar(128));"];
+    
     return self;
 }
 
@@ -244,6 +248,26 @@ static Database *sharedSqlite = nil;
         }
     }
     return NO;
+}
+
+- (void)insertHistory:(SearchHistory *)historyItem
+{
+    [db setShouldCacheStatements:NO];
+    FMResultSet *rs = [db executeQuery:@"SELECT * FROM coSearch_searchHistory WHERE `searchKey` = ?;",historyItem.searchKey];
+    if ([rs next])
+    {
+        [db executeUpdate:@"DELETE FROM coSearch_searchHistory WHERE `searchKey` = ?", historyItem.searchKey];
+        [db executeUpdate:@"INSERT INTO coSearch_searchHistory (`searchKey`) VALUES (?);", historyItem.searchKey];
+    }
+    else
+    {
+        [db executeUpdate:@"INSERT INTO coSearch_searchHistory (`searchKey`) VALUES (?);", historyItem.searchKey];
+    }
+}
+
+- (void)deleteAllSearchHistory
+{
+    [db executeUpdate:@"DELETE FROM coSearch_searchHistory"];
 }
 
 @end
