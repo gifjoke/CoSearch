@@ -100,6 +100,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     self.collectionView.dataSource=self;
     self.collectionView.delegate=self;
     self.collectionView.alwaysBounceVertical = YES;
+    self.collectionView.showsVerticalScrollIndicator = NO;
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     [self.collectionView registerClass:[SearchTypeCollectionCell class] forCellWithReuseIdentifier:kSearchTypeCollectionCellID];
     [self.view addSubview:self.collectionView];

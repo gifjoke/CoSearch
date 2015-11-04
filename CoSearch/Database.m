@@ -159,6 +159,13 @@ static Database *sharedSqlite = nil;
     searchType.searchTypeId = typeId++;
     [array addObject:searchType];
     
+    searchType = [[SearchType alloc] init];
+    searchType.searchTypeName = @"知网";
+    searchType.searchTypeModel = @"http://wap.cnki.net/acasearch.aspx?q=%@";
+    searchType.searchTypeImageName = @"cnki";
+    searchType.searchTypeId = typeId++;
+    [array addObject:searchType];
+    
     return array;
 }
 
