@@ -373,6 +373,7 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
     AppDelegate *appDelegate = [AppDelegate sharedAppDelegate];
     NSIndexPath *index = [NSIndexPath indexPathForRow:[appDelegate.searchTypeArray indexOfObject:self.currentType] inSection:0];
     CGRect frameInWindows = [self.collectionView convertRect:[self.collectionView cellForItemAtIndexPath:index].frame toView:self.view];
+    CGRect iconFrameInWindows = CGRectMake(frameInWindows.origin.x+frameInWindows.size.width*0.25, frameInWindows.origin.y+frameInWindows.size.height*0.2, frameInWindows.size.width*0.5, frameInWindows.size.width*0.5);
     if (isShow) {
         if (!self.webView) {
             self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-StatusBarHeight-48)];
@@ -381,28 +382,37 @@ static NSString *const kSearchTypeCollectionCellID = @"kSearchTypeCollectionCell
             [self.webViewContainer addSubview:self.webView];            
         }
         self.webViewContainer.hidden = NO;
-        self.webViewContainer.frame = frameInWindows;
-        self.webViewContainer.layer.opacity = 0.1;
+        self.webViewContainer.frame = iconFrameInWindows;
+        self.webViewContainer.alpha = 0.4;
+        self.webViewContainer.layer.cornerRadius = iconFrameInWindows.size.width*0.5;
+        NSLog(@"%lf", iconFrameInWindows.size.width*0.5);
         [self.view bringSubviewToFront:self.toolBar];
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.webViewContainer.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height-StatusBarHeight);
-            self.webViewContainer.layer.opacity = 1;
+            self.webViewContainer.alpha = 0.7;
             self.toolBar.frame = CGRectMake(0, self.view.frame.size.height-48, self.view.frame.size.width, 48);
         } completion:^(BOOL finished) {
             self.webViewContainer.hidden = NO;
+            self.webViewContainer.layer.cornerRadius = 0;
+            [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                self.webViewContainer.alpha = 1;
+            } completion:^(BOOL finished) {
+                ;
+            }];
         }];
     }
     else
     {
         [self.webView removeFromSuperview];
         self.webView = nil;
+        self.webViewContainer.layer.cornerRadius = iconFrameInWindows.size.width/2.0;
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.webViewContainer.frame = frameInWindows;
-            self.webViewContainer.layer.opacity = 0.1;
+            self.webViewContainer.frame = iconFrameInWindows;
+            self.webViewContainer.alpha = 0.4;
             self.toolBar.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 48);
         } completion:^(BOOL finished) {
             self.webViewContainer.hidden = YES;
-            self.webViewContainer.layer.opacity = 0;
+            self.webViewContainer.alpha = 0;
         }];
     }
 }
